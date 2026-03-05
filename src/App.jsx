@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import './App.css'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import About from './components/About'
+// import About from './components/About1'
 import Event from './components/Event'
 import Sponsors from './components/Sponsors'
 import Reel from './components/Reel'
@@ -36,12 +36,12 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar 
-        scrollToRefs={scrollToRefs} 
-        scrollToSection={scrollToSection} 
+      <Navbar
+        scrollToRefs={scrollToRefs}
+        scrollToSection={scrollToSection}
         isScrolled={isScrolled}
       />
-      
+
       <main className="grow bg-black">
         <Hero ref={heroRef} />
         <About ref={aboutRef} />
@@ -50,8 +50,8 @@ function App() {
         <Reel ref={reelRef} />
       </main>
 
-      <Footer 
-        scrollToRefs={scrollToRefs} 
+      <Footer
+        scrollToRefs={scrollToRefs}
         scrollToSection={scrollToSection}
       />
     </div>

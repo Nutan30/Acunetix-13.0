@@ -1,0 +1,296 @@
+/* ═══════════════════════════════════════════
+   About Section – Acunetix 13.0
+   Laser-beam cyberpunk edition
+   ═══════════════════════════════════════════ */
+
+.about-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 6rem 1.5rem;
+}
+
+/* Background image layer */
+.about-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('../assets/AbtUs Bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Dark gradient overlay – more blue-tinted for cinematic night feel */
+.about-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(0, 6, 18, 0.78) 0%,
+      rgba(0, 8, 25, 0.45) 35%,
+      rgba(0, 5, 20, 0.55) 65%,
+      rgba(0, 0, 0, 0.88) 100%);
+  z-index: 1;
+}
+
+/* ── Laser beams canvas ────────────────── */
+.about-lasers-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── CSS atmospheric fog overlay ───────── */
+.about-fog-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 75%, rgba(100, 180, 255, 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 70% 80%, rgba(120, 200, 255, 0.035) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 30% at 50% 95%, rgba(0, 0, 0, 0.4) 0%, transparent 60%);
+  animation: fogDrift 12s ease-in-out infinite alternate;
+}
+
+@keyframes fogDrift {
+  0% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Content wrapper */
+.about-content {
+  position: relative;
+  z-index: 5;
+  max-width: 960px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+}
+
+/* ── Badge ─────────────────────────────── */
+.about-badge {
+  display: inline-block;
+  padding: 0;
+  border-radius: 0;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: none;
+  background: none;
+  box-shadow: none;
+  text-shadow: 0 0 30px rgba(92, 219, 255, 0.25);
+  animation: none;
+}
+
+@keyframes badgePulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(92, 219, 255, 0.15), 0 0 60px rgba(92, 219, 255, 0.05);
+  }
+
+  50% {
+    box-shadow: 0 0 32px rgba(92, 219, 255, 0.35), 0 0 80px rgba(92, 219, 255, 0.1);
+  }
+}
+
+/* ── Heading ───────────────────────────── */
+.about-heading {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 0 30px rgba(92, 219, 255, 0.15);
+}
+
+.about-heading .highlight {
+  background: linear-gradient(135deg, #5cdbff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Description ───────────────────────── */
+.about-description {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.8;
+  max-width: 680px;
+}
+
+/* ── Glowing Divider — cyan ────────────── */
+.about-divider {
+  width: 120px;
+  height: 2px;
+  border: none;
+  background: linear-gradient(90deg, transparent, #5cdbff, transparent);
+  box-shadow: 0 0 14px rgba(92, 219, 255, 0.5), 0 0 40px rgba(92, 219, 255, 0.15);
+}
+
+/* ── Stats Row ─────────────────────────── */
+.about-stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-card {
+  flex: 1 1 140px;
+  max-width: 200px;
+  padding: 1.5rem 1rem;
+  border-radius: 16px;
+  background: rgba(10, 20, 40, 0.55);
+  border: 1px solid rgba(92, 219, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(92, 219, 255, 0.12);
+  border-color: rgba(92, 219, 255, 0.35);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #5cdbff;
+  display: block;
+  text-shadow: 0 0 16px rgba(92, 219, 255, 0.4);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* ── Glass Card ────────────────────────── */
+.about-glass-card {
+  padding: 2rem 2.5rem;
+  border-radius: 20px;
+  background: rgba(10, 20, 40, 0.5);
+  border: 1px solid rgba(92, 219, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  max-width: 720px;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.3);
+}
+
+.about-glass-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #ffffff;
+}
+
+.about-glass-card p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.75;
+}
+
+/* ── Organised-by badges ───────────────── */
+.about-org-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.org-pill {
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(92, 219, 255, 0.18);
+  background: rgba(92, 219, 255, 0.05);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.org-pill:hover {
+  background: rgba(92, 219, 255, 0.12);
+  border-color: rgba(92, 219, 255, 0.45);
+  box-shadow: 0 0 16px rgba(92, 219, 255, 0.15);
+}
+
+/* ── Scroll-triggered fade-up ──────────── */
+.about-animate {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.about-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* stagger children */
+.about-animate:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.about-animate:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.about-animate:nth-child(4) {
+  transition-delay: 0.3s;
+}
+
+.about-animate:nth-child(5) {
+  transition-delay: 0.4s;
+}
+
+.about-animate:nth-child(6) {
+  transition-delay: 0.5s;
+}
+
+.about-animate:nth-child(7) {
+  transition-delay: 0.6s;
+}
+
+/* ── Responsive ────────────────────────── */
+@media (max-width: 640px) {
+  .about-section {
+    padding: 4rem 1rem;
+  }
+
+  .about-glass-card {
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+  }
+
+  .stat-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
