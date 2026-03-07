@@ -10,6 +10,7 @@ import Schedule from './components/Schedule'
 import Sponsors from './components/Sponsors'
 import Reel from './components/Reel'
 import Footer from './components/Footer'
+import Chatbot from './components/Chatbot'
 import SchedulePageNew_1 from './pages/SchedulePageNew_1'
 import SchedulePageNew_2 from './pages/SchedulePageNew_2'
 import SchedulePageNew_3 from './pages/SchedulePageNew_3'
@@ -86,6 +87,7 @@ function App() {
         <Route path="/schedule/2" element={<SchedulePageNew_2 />} />
         <Route path="/schedule/3" element={<SchedulePageNew_3 />} />
       </Routes>
+      <Chatbot />
     </div>
   )
 }
