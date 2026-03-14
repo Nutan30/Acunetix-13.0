@@ -117,16 +117,8 @@ const EventDetails = () => {
     const event = eventsData.find((e) => e.id === eventName);
 
     const handleBack = useCallback(() => {
-        navigate('/');
-        setTimeout(() => {
-            const el = document.getElementById('events');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+        navigate('/', { state: { scrollToEvents: true } });
     }, [navigate]);
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [eventName]);
 
     if (!event) {
         return (
@@ -467,8 +459,12 @@ const EventDetails = () => {
 
             {/* Bottom marquee */}
             <MarqueeStrip words={theme.marqueeWords} color={theme.primary} />
-            <Footer scrollToRefs={{ heroRef: true }} scrollToSection={() => navigate('/')} />
+            {/* Footer — solid background, no particle/glow bleed-through */}
+            <div className="relative z-[50] bg-black">
+                <Footer scrollToRefs={{ heroRef: true }} scrollToSection={() => navigate('/')} />
+            </div>
         </motion.div>
+
     );
 };
 
