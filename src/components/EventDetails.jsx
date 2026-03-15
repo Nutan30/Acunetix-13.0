@@ -9,6 +9,7 @@ import Footer from './Footer';
 import FlickeringGrid from './FlickeringGrid';
 import MatrixRain from './MatrixRain';
 import LetterGlitch from './LetterGlitch';
+import { GridScan } from './GridScan';
 
 /* ── Particle Canvas — dramatic floating particles ── */
 const ParticleCanvas = ({ color }) => {
@@ -187,7 +188,28 @@ const EventDetails = () => {
                     />
                 </div>
             )}
-            {/* ...existing code... */}
+
+            {/* GridScan background for Escape Room (timescape) */}
+            {id === 'timescape' && (
+                <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
+                    <GridScan
+                        linesColor="transparent"
+                        scanColor="#a21caf"
+                        scanOpacity={0.95}
+                        gridScale={0.12}
+                        lineThickness={0}
+                        lineJitter={0}
+                        scanGlow={2.5}
+                        scanSoftness={4}
+                        scanPhaseTaper={0.8}
+                        scanDuration={1.5}
+                        scanDelay={2.5}
+                        enablePost={false}
+                        className="w-full h-full"
+                        style={{ position: 'absolute', inset: 0, background: '#0a0014' }}
+                    />
+                </div>
+            )}
 
 
                         {/* Matrix rain for build-a-thon and codeoflies, FlickeringGrid for ctrlaltelite, all with bg-slate-900/90 overlay */}
@@ -200,7 +222,7 @@ const EventDetails = () => {
                         )}
                         {id === 'ctrlaltelite' && (
                                 <>
-                                    <FlickeringGrid color={theme.primary} className="z-0" />
+                                    <FlickeringGrid color={theme.dark} className="z-0" />
                                     <div className="fixed inset-0 w-full h-full z-0 pointer-events-none" />
                                 </>
                         )}
@@ -209,9 +231,9 @@ const EventDetails = () => {
                         {(id === 'brainiac' || id === 'bugbounty') && (
                                 <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
                                     <LetterGlitch
-                                        glitchColors={['#ff3333', '#33ff33', '#3399ff']}
+                                        glitchColors={[theme.primary, invertedPrimary]}
                                         glitchSpeed={50}
-                                        centerVignette={true}
+                                        centerVignette={false}
                                         outerVignette={false}
                                         smooth={true}
                                         style={{ background: 'transparent' }}
@@ -220,55 +242,7 @@ const EventDetails = () => {
                                 </div>
                         )}
 
-            {/* Large ambient glows — very visible */}
-            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-                {/* Top-right glow */}
-                <div
-                    className="absolute rounded-full"
-                    style={{
-                        top: '-15%',
-                        right: '-10%',
-                        width: '700px',
-                        height: '700px',
-                        background: theme.primary,
-                        opacity: 0.12,
-                        filter: 'blur(120px)',
-                    }}
-                />
-                {/* Bottom-left glow */}
-                <div
-                    className="absolute rounded-full"
-                    style={{
-                        bottom: '-10%',
-                        left: '-10%',
-                        width: '500px',
-                        height: '500px',
-                        background: theme.primary,
-                        opacity: 0.08,
-                        filter: 'blur(100px)',
-                    }}
-                />
-                {/* Center glow */}
-                <div
-                    className="absolute rounded-full"
-                    style={{
-                        top: '30%',
-                        left: '40%',
-                        width: '600px',
-                        height: '600px',
-                        background: theme.primary,
-                        opacity: 0.05,
-                        filter: 'blur(150px)',
-                    }}
-                />
-                {/* Vignette overlay */}
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)',
-                    }}
-                />
-            </div>
+            {/* Removed large ambient glows */}
 
             {/* Page content */}
             <div className="relative z-10 grow pt-24 pb-32">
@@ -286,7 +260,7 @@ const EventDetails = () => {
                             borderColor: `${theme.primary}60`,
                             color: theme.primary,
                             backgroundColor: `${theme.primary}15`,
-                            boxShadow: `0 0 15px ${theme.primary}15`,
+                            // boxShadow removed
                         }}
                     >
                         ← Back to Events
@@ -307,7 +281,7 @@ const EventDetails = () => {
                                 className="relative rounded-2xl overflow-hidden"
                                 style={{
                                     width: 'min(85vw, 340px)',
-                                    boxShadow: `0 0 50px ${theme.primary}40, 0 0 100px ${theme.primary}15, 0 20px 60px rgba(0,0,0,0.5)`,
+                                    // boxShadow removed
                                     border: `2px solid ${theme.primary}40`,
                                 }}
                             >
@@ -330,7 +304,7 @@ const EventDetails = () => {
                                         borderColor: `${theme.primary}50`,
                                         color: theme.primary,
                                         backgroundColor: `${theme.primary}15`,
-                                        boxShadow: `0 0 20px ${theme.primary}15`,
+                                        // boxShadow removed
                                     }}
                                 >
                                     {event.category} · {event.categoryIcon}
@@ -343,7 +317,7 @@ const EventDetails = () => {
                                 style={{
                                     fontFamily: "'VerminVibes', 'Orbitron', monospace",
                                     color: '#fff',
-                                    textShadow: `0 0 60px ${theme.primary}40, 0 0 120px ${theme.primary}20`,
+                                    // textShadow removed
                                 }}
                             >
                                 {event.name}
@@ -362,7 +336,7 @@ const EventDetails = () => {
                                 className="h-0.5 w-full mb-8"
                                 style={{
                                     background: `linear-gradient(to right, ${theme.primary}80, ${theme.primary}20, transparent)`,
-                                    boxShadow: `0 0 15px ${theme.primary}40`,
+                                    // boxShadow removed
                                 }}
                             />
 
@@ -385,7 +359,7 @@ const EventDetails = () => {
                                             className="w-2.5 h-2.5 rounded-full mt-1 shrink-0"
                                             style={{
                                                 backgroundColor: theme.primary,
-                                                boxShadow: `0 0 10px ${theme.primary}80`,
+                                                // boxShadow removed
                                             }}
                                         />
                                         <span className="text-white/80 text-sm font-semibold">{item}</span>
@@ -408,7 +382,7 @@ const EventDetails = () => {
                                         className="text-3xl md:text-4xl font-black"
                                         style={{
                                             color: theme.primary,
-                                            textShadow: `0 0 20px ${theme.primary}50`,
+                                            // textShadow removed
                                         }}
                                     >
                                         {event.entryFee}
@@ -422,7 +396,7 @@ const EventDetails = () => {
                                         className="text-3xl md:text-4xl font-black"
                                         style={{
                                             color: theme.primary,
-                                            textShadow: `0 0 20px ${theme.primary}50`,
+                                            // textShadow removed
                                         }}
                                     >
                                         {event.prizePool}
@@ -438,11 +412,11 @@ const EventDetails = () => {
                                 className="inline-block px-10 py-4 rounded-lg font-black text-sm tracking-[0.25em] uppercase text-black transition-all duration-300 no-underline"
                                 style={{
                                     backgroundColor: theme.primary,
-                                    boxShadow: `0 0 40px ${theme.primary}60, 0 0 80px ${theme.primary}30, 0 10px 40px ${theme.primary}30`,
+                                    // boxShadow removed
                                 }}
                                 whileHover={{
                                     scale: 1.05,
-                                    boxShadow: `0 0 60px ${theme.primary}90, 0 0 120px ${theme.primary}40, 0 15px 60px ${theme.primary}40`,
+                                    // boxShadow removed
                                 }}
                                 whileTap={{ scale: 0.97 }}
                                 initial={{ opacity: 0, y: 20 }}
@@ -464,7 +438,7 @@ const EventDetails = () => {
                             <motion.div
                                 className="relative rounded-2xl overflow-hidden"
                                 style={{
-                                    boxShadow: `0 0 60px ${theme.primary}35, 0 0 120px ${theme.primary}15, 0 25px 80px rgba(0,0,0,0.5)`,
+                                    // boxShadow removed
                                     border: `2px solid ${theme.primary}40`,
                                 }}
                                 animate={{
@@ -512,7 +486,7 @@ const EventDetails = () => {
                                 style={{
                                     borderColor: `${theme.primary}25`,
                                     backgroundColor: `${theme.primary}08`,
-                                    boxShadow: `0 0 20px ${theme.primary}08`,
+                                    // boxShadow removed
                                 }}
                             >
                                 <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-0.5">
