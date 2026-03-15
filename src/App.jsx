@@ -1,15 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
-import './App.css'
-
-/* ── Force scroll to top — used on route change + after exit animation ── */
-function forceScrollTop() {
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-}
-
+import React, { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
