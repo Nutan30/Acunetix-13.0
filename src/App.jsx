@@ -14,6 +14,7 @@ import SchedulePageNew_2 from './pages/SchedulePageNew_2'
 import SchedulePageNew_3 from './pages/SchedulePageNew_3'
 import EventDetails from './components/EventDetails'
 import { motion } from 'framer-motion';
+import ScrollToTop from './components/ScrollToTop';
 
 function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
   const location = useLocation();
@@ -97,6 +98,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"

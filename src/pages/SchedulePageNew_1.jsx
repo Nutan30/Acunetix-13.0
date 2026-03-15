@@ -28,7 +28,7 @@ const SchedulePageNew_1 = () => {
             <Navbar scrollToRefs={{}} isScrolled={true} />
 
             <div className="flex-grow relative flex flex-col items-center pt-24 pb-12">
-                <button className="absolute left-8 top-28 border border-white/15 text-white px-4 py-2 rounded-lg text-sm hover:border-[#00ffc8]/50 hover:text-[#00ffc8]/90 transition-all z-10" onClick={() => navigate('/')}>
+                <button className="fixed left-8 top-28 border border-white/15 text-white px-4 py-2 rounded-lg text-sm hover:border-[#00ffc8]/50 hover:text-[#00ffc8]/90 transition-all z-10" onClick={() => navigate('/#schedule')}>
                     ← Back
                 </button>
                 <h1 className="schedule-title" style={{ zIndex: 1, position: 'relative' }}>Schedule</h1>
