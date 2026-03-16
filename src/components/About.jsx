@@ -34,8 +34,7 @@ const About = forwardRef((props, ref) => {
       <div className="absolute inset-0 z-0 pointer-events-auto">
         <MagicRings
           color="#ffffff"
-          colorTwo="#42fcff"
-          colorThree="#ff42e9"
+          
           ringCount={dimensions.isMobile ? 14 : 10}
           speed={0.5}
           attenuation={dimensions.isMobile ? 4 : 5}
@@ -72,7 +71,6 @@ const About = forwardRef((props, ref) => {
           <h2 className="about-title text-5xl md:text-9xl font-black uppercase tracking-wider text-white mb-2">
             About Us
           </h2>
-          <div className="w-16 md:w-32 h-1 bg-cyan-400 mx-auto"></div>
         </div>
 
         <p className="about-paragraph text-center text-base md:text-3xl text-gray-200 leading-relaxed max-w-4xl mx-auto px-4">
