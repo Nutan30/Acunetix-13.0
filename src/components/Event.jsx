@@ -127,15 +127,28 @@ const Event = forwardRef((props, ref) => {
   const initialIndex = eventsData.findIndex(e => e.id === 'ctrlaltelite');
   const startIndex = initialIndex !== -1 ? initialIndex : Math.floor(eventsData.length / 2);
   const [activeIndex, setActiveIndex] = useState(startIndex);
+  const isProgrammaticScroll = useRef(false);
+  const scrollTimeoutRef = useRef(null);
 
   const scrollToCard = useCallback((index) => {
     const container = scrollRef.current;
     if (!container) return;
     const cards = container.children;
     if (!cards[index]) return;
+    
+    
     const card = cards[index];
     const containerCenter = container.offsetWidth / 2;
     const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+    
+    // Lock scroll observer during programmatic sliding
+    isProgrammaticScroll.current = true;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 600); // 600ms safely covers the native smooth scroll transition
+    
+    // Safely scroll horizontal ONLY, without causing vertical page jumps
     container.scrollTo({
       left: cardCenter - containerCenter,
       behavior: 'smooth',
@@ -144,35 +157,46 @@ const Event = forwardRef((props, ref) => {
 
   // Center on mount
   useEffect(() => {
+    // Only center once on mount, wait for layout to settle
     const t = setTimeout(() => scrollToCard(activeIndex), 150);
     return () => clearTimeout(t);
   }, []);
 
-  // Debounced scroll detection — only fires after scroll stops
+  // Smooth scroll sync - tracks the center-most card in real time
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
-    let timer = null;
+
+    let isTicking = false;
 
     const onScroll = () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        const center = container.scrollLeft + container.offsetWidth / 2;
-        let best = 0;
-        let bestDist = Infinity;
-        for (let i = 0; i < container.children.length; i++) {
-          const child = container.children[i];
-          const d = Math.abs(center - (child.offsetLeft + child.offsetWidth / 2));
-          if (d < bestDist) { bestDist = d; best = i; }
-        }
-        setActiveIndex(best);
-      }, 120);
+      if (isProgrammaticScroll.current) return;
+      if (!isTicking) {
+        window.requestAnimationFrame(() => {
+          const center = container.scrollLeft + container.offsetWidth / 2;
+          let best = 0;
+          let bestDist = Infinity;
+
+          for (let i = 0; i < container.children.length; i++) {
+            const child = container.children[i];
+            const childCenter = child.offsetLeft + child.offsetWidth / 2;
+            const d = Math.abs(center - childCenter);
+            if (d < bestDist) {
+              bestDist = d;
+              best = i;
+            }
+          }
+
+          setActiveIndex(best);
+          isTicking = false;
+        });
+        isTicking = true;
+      }
     };
 
     container.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       container.removeEventListener('scroll', onScroll);
-      clearTimeout(timer);
     };
   }, []);
 
