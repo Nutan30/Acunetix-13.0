@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -12,6 +14,12 @@ import SchedulePageNew_1 from './pages/SchedulePageNew_1'
 import SchedulePageNew_2 from './pages/SchedulePageNew_2'
 import SchedulePageNew_3 from './pages/SchedulePageNew_3'
 import EventDetails from './components/EventDetails'
+
+function forceScrollTop() {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}
 
 function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
   const location = useLocation();
@@ -43,14 +51,14 @@ function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
           isScrolled={isScrolled}
         />
 
-      <main className="grow bg-black">
-        <Hero ref={scrollToRefs.heroRef} />
-        <About ref={scrollToRefs.aboutRef} />
-        <Event ref={scrollToRefs.eventRef} />
-        <Schedule ref={scrollToRefs.scheduleRef} />
-        <Sponsors ref={scrollToRefs.sponsorsRef} />
-        <Reel ref={scrollToRefs.reelRef} />
-      </main>
+        <main className="grow bg-black">
+          <Hero ref={scrollToRefs.heroRef} />
+          <About ref={scrollToRefs.aboutRef} />
+          <Event ref={scrollToRefs.eventRef} />
+          <Schedule ref={scrollToRefs.scheduleRef} />
+          <Sponsors ref={scrollToRefs.sponsorsRef} />
+          <Reel ref={scrollToRefs.reelRef} />
+        </main>
 
         <Footer
           scrollToRefs={scrollToRefs}
