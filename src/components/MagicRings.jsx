@@ -187,15 +187,16 @@ export default function MagicRings({
     const animate = (t) => {
       frameId = requestAnimationFrame(animate);
       const p = propsRef.current;
+      const dimPower = p.clickBurst ? (1.0 - burstRef.current * 0.8) : 1.0;
 
       smoothMouseRef.current[0] += (mouseRef.current[0] - smoothMouseRef.current[0]) * 0.08;
       smoothMouseRef.current[1] += (mouseRef.current[1] - smoothMouseRef.current[1]) * 0.08;
       hoverAmountRef.current += ((isHoveredRef.current ? 1 : 0) - hoverAmountRef.current) * 0.08;
-      burstRef.current *= 0.95;
+      burstRef.current *= 0.85;
       if (burstRef.current < 0.001) burstRef.current = 0;
 
       uniforms.uTime.value = t * 0.001 * p.speed;
-      uniforms.uAttenuation.value = p.attenuation;
+      uniforms.uAttenuation.value = p.attenuation/ dimPower;
       uniforms.uColor.value.set(p.color);
       uniforms.uColorTwo.value.set(p.colorTwo);
       uniforms.uLineThickness.value = p.lineThickness;
@@ -203,7 +204,7 @@ export default function MagicRings({
       uniforms.uRadiusStep.value = p.radiusStep;
       uniforms.uScaleRate.value = p.scaleRate;
       uniforms.uRingCount.value = p.ringCount;
-      uniforms.uOpacity.value = p.opacity;
+      uniforms.uOpacity.value = p.opacity * dimPower;
       uniforms.uNoiseAmount.value = p.noiseAmount;
       uniforms.uRotation.value = (p.rotation * Math.PI) / 180;
       uniforms.uRingGap.value = p.ringGap;

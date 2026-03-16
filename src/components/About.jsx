@@ -3,46 +3,79 @@ import MagicRings from './MagicRings';
 import './About.css';
 
 const About = forwardRef((props, ref) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [dimensions, setDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    isMobile: typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  });
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize(); // Check on mount
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        isMobile: window.innerWidth < 768
+      });
+    };
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const scaleFactor = Math.min(Math.max(dimensions.width / 1200, 0.4), 1.0);
 
   return (
     <section 
       ref={ref} 
       id="about" 
-     
-      className="about-section min-h-0 md:min-h-screen py-20 md:py-0 relative overflow-hidden flex items-center justify-center bg-black"
+      className="about-section min-h-[70vh] md:min-h-screen w-full relative overflow-hidden flex flex-col items-center justify-center bg-black px-6 py-16 md:py-0"
     >
       
-      
-      <div className="absolute inset-0 z-0">
+      {/* BACKGROUND LAYER */}
+      {/* CRITICAL: Changed pointer-events-none to pointer-events-auto for interaction */}
+      <div className="absolute inset-0 z-0 pointer-events-auto">
         <MagicRings
           color="#ffffff"
           colorTwo="#42fcff"
-          colorthree="#ff42e9"
-          ringCount={isMobile ? 10 : 6}
-          baseRadius={isMobile ? 0.2 : 0.35}
-          radiusStep={isMobile ? 0.08 : 0.1}
-          speed={0.8}
+          colorThree="#ff42e9"
+          ringCount={dimensions.isMobile ? 14 : 10}
+          speed={0.5}
+          attenuation={dimensions.isMobile ? 4 : 5}
+          lineThickness={2}
           
-          attenuation={isMobile ? 12 : 10}
+          baseRadius={dimensions.isMobile ? 0.4 : 0.3 * (1 / scaleFactor)} 
+          radiusStep={dimensions.isMobile ? 0.1 : 0.15 * scaleFactor}
+
+          scaleRate={0.1}
           opacity={0.8}
+          noiseAmount={0.1}
+          rotation={0}
+          ringGap={1.5}
+          fadeIn={0.7}
+          fadeOut={0.5}
+          
+          // --- INTERACTION SETTINGS ---
+              // Must be true for movement
+             // Higher value = more dramatic movement
+                  // Adds depth to the movement
+          clickBurst={true}       // Provides feedback on click
+          // ----------------------------
+          followMouse={!dimensions.isMobile} 
+  mouseInfluence={dimensions.isMobile ? 0 : 0.4}
+  hoverScale={dimensions.isMobile ? 1.0 : 1.3}
+  parallax={dimensions.isMobile ? 0 : 0.1}
         />
       </div>
 
-      {/* Content Container */}
-      <div className="about-content relative z-10 container mx-auto px-6 text-center">
-        <h2 className="about-title text-5xl md:text-8xl lg:text-9xl font-black uppercase tracking-wider text-white mb-4">
-          About Us
-        </h2>
-        
-        <p className="about-paragraph text-lg md:text-2xl lg:text-3xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+      {/* CONTENT LAYER */}
+      {/* Added pointer-events-none here so the mouse "passes through" the text to the rings */}
+      <div className="relative z-10 w-full flex flex-col items-center pointer-events-none">
+        <div className="about-header text-center mb-8 md:mb-20">
+          <h2 className="about-title text-5xl md:text-9xl font-black uppercase tracking-wider text-white mb-2">
+            About Us
+          </h2>
+          <div className="w-16 md:w-32 h-1 bg-cyan-400 mx-auto"></div>
+        </div>
+
+        <p className="about-paragraph text-center text-base md:text-3xl text-gray-200 leading-relaxed max-w-4xl mx-auto px-4">
           Acunetix 13.0 is a flagship event organised by ACES and CSI, offering
           a range of Tech &amp; Non-Tech events. Participants take part in
           diverse competitions, showcasing their skills and earning recognition.
@@ -51,6 +84,7 @@ const About = forwardRef((props, ref) => {
           unforgettable experience.
         </p>
       </div>
+      
     </section>
   );
 });
