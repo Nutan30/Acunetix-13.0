@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import ScrollToTop from './components/ScrollToTop'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -56,7 +57,7 @@ function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
         <About ref={scrollToRefs.aboutRef} />
         <Event ref={scrollToRefs.eventRef} />
         <Schedule ref={scrollToRefs.scheduleRef} />
-        <Sponsors ref={scrollToRefs.sponsorsRef} />
+        {/*<Sponsors ref={scrollToRefs.sponsorsRef} />} */}
         <Reel ref={scrollToRefs.reelRef} />
       </main>
 
@@ -103,6 +104,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"

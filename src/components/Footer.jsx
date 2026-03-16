@@ -4,14 +4,14 @@ import linkedin from '../assets/linkedin.svg';
 import youtube from '../assets/youtube.svg';
 import instagram from '../assets/instagram.svg';
 
-export default function Footer({ scrollToRefs, scrollToSection }) {
+export default function Footer({ scrollToRefs, scrollToSection, className = "" }) {
   const handleLogoClick = (e) => {
     e.preventDefault();
     if (scrollToRefs?.heroRef) scrollToSection(scrollToRefs.heroRef);
   };
 
   return (
-    <footer className="relative bg-black text-white text-center overflow-hidden border-t border-white/10">
+    <footer className={`sticky bottom-0 left-0 w-full bg-black text-white text-center overflow-hidden border-t border-white/10 z-50 ${className}`} style={{marginTop: 'auto'}}>
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50 z-[-1]" />
 
