@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import eventsData from '../data/eventsData';
 import gamestormBg from '../assets/gamestrom bg.jpg';
-import gamestormFg from '../assets/foreground gamestrom.png';
+// Import or define missing background components here
 import Navbar from './Navbar';
 import Footer from './Footer';
 import FlickeringGrid from './FlickeringGrid';
@@ -11,7 +11,14 @@ import MatrixRain from './MatrixRain';
 import LetterGlitch from './LetterGlitch';
 import { GridScan } from './GridScan';
 
-/* ── Particle Canvas — dramatic floating particles ── */
+// Placeholder components for missing imports found in your logic
+const CtrlAltEliteBackground = () => <div className="absolute inset-0 bg-blue-900/20" />;
+const BugBountyBackground = () => <div className="absolute inset-0 bg-red-900/20" />;
+const InteractiveParticleField = () => <div className="absolute inset-0 bg-purple-900/20" />;
+const FloatingLines = (props) => <div className="absolute inset-0 opacity-30" />;
+const ShapeGrid = (props) => <div className="absolute inset-0 opacity-20" />;
+
+/* ── Particle Canvas ── */
 const ParticleCanvas = ({ color }) => {
     const canvasRef = useRef(null);
     const animRef = useRef(null);
@@ -29,7 +36,6 @@ const ParticleCanvas = ({ color }) => {
         resize();
         window.addEventListener('resize', resize);
 
-        // More particles, bigger, more visible
         const count = 90;
         particlesRef.current = Array.from({ length: count }, () => ({
             x: Math.random() * canvas.width,
@@ -54,19 +60,9 @@ const ParticleCanvas = ({ color }) => {
                 if (p.y < 0) p.y = canvas.height;
                 if (p.y > canvas.height) p.y = 0;
 
-                // Main dot
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = color + Math.round(alpha * 255).toString(16).padStart(2, '0');
-                ctx.fill();
-
-                // Big soft glow around each particle
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size * 5, 0, Math.PI * 2);
-                const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 5);
-                g.addColorStop(0, color + Math.round(alpha * 100).toString(16).padStart(2, '0'));
-                g.addColorStop(1, color + '00');
-                ctx.fillStyle = g;
                 ctx.fill();
             });
             animRef.current = requestAnimationFrame(animate);
@@ -79,15 +75,10 @@ const ParticleCanvas = ({ color }) => {
         };
     }, [color]);
 
-    return (
-        <canvas
-            ref={canvasRef}
-            className="fixed inset-0 pointer-events-none z-1"
-        />
-    );
+    return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-1" />;
 };
 
-/* ── Marquee Strip ────────────────────────────────── */
+/* ── Marquee Strip ── */
 const MarqueeStrip = ({ words, color }) => (
     <div
         className="relative z-30 w-full overflow-hidden border-t py-3 mt-auto"
@@ -97,17 +88,16 @@ const MarqueeStrip = ({ words, color }) => (
             backdropFilter: 'blur(10px)',
         }}
     >
-        <div className="marquee-track">
+        <div className="flex whitespace-nowrap animate-marquee">
             {[...Array(4)].map((_, si) => (
                 <React.Fragment key={si}>
                     {words.map((word, wi) => (
                         <span
                             key={`${si}-${wi}`}
-                            className="inline-flex items-center gap-3 mx-5 text-xs md:text-sm font-bold tracking-[0.25em] uppercase whitespace-nowrap"
+                            className="inline-flex items-center gap-3 mx-5 text-xs md:text-sm font-bold tracking-[0.25em] uppercase"
                             style={{ color: `${color}` }}
                         >
-                            <span style={{ color }}>◆</span>
-                            {word}
+                            <span>◆</span> {word}
                         </span>
                     ))}
                 </React.Fragment>
@@ -116,18 +106,14 @@ const MarqueeStrip = ({ words, color }) => (
     </div>
 );
 
-/* ── Event Details Page ────────────────────────────── */
+/* ── Event Details Page ── */
 const EventDetails = () => {
     const { eventName } = useParams();
     const navigate = useNavigate();
     const event = eventsData.find((e) => e.id === eventName);
 
     const handleBack = useCallback(() => {
-        navigate('/');
-        setTimeout(() => {
-            const el = document.getElementById('events');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+        navigate('/', { state: { scrollToEvents: true } });
     }, [navigate]);
 
     useEffect(() => {
@@ -136,28 +122,20 @@ const EventDetails = () => {
 
     if (!event) {
         return (
-            <div className="min-h-screen bg-black flex items-center justify-center">
+            <div className="min-h-screen bg-black flex items-center justify-center text-white">
                 <div className="text-center">
-                    <h1 className="text-4xl font-bold text-white mb-4">Event Not Found</h1>
-                    <button
-                        onClick={() => navigate('/')}
-                        className="px-6 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors cursor-pointer"
-                    >
-                        ← Back to Events
-                    </button>
+                    <h1 className="text-4xl font-bold mb-4">Event Not Found</h1>
+                    <button onClick={() => navigate('/')} className="px-6 py-2 border rounded">Back</button>
                 </div>
             </div>
         );
     }
 
-
     const { theme, id } = event;
 
-    // Utility to invert a hex color (e.g. #4ac8c8 -> #b53737)
     function invertHex(hex) {
         let c = hex.replace('#', '');
         if (c.length === 3) c = c.split('').map(x => x + x).join('');
-        if (c.length !== 6) return '#fff';
         const r = (255 - parseInt(c.slice(0, 2), 16)).toString(16).padStart(2, '0');
         const g = (255 - parseInt(c.slice(2, 4), 16)).toString(16).padStart(2, '0');
         const b = (255 - parseInt(c.slice(4, 6), 16)).toString(16).padStart(2, '0');
@@ -165,352 +143,86 @@ const EventDetails = () => {
     }
     const invertedPrimary = invertHex(theme.primary);
 
-
-    // GameStorm custom background and glitch foreground (React+Tailwind only)
-    const isGameStorm = id === 'gamestorm';
     return (
         <motion.div
-            className="min-h-screen relative flex flex-col overflow-x-hidden"
-            style={isGameStorm ? { background: `url(${gamestormBg}) center/cover, ${theme.gradient}` } : { background: theme.gradient }}
+            className="min-h-screen relative flex flex-col overflow-x-hidden bg-black"
+            style={{ background: id === 'gamestorm' ? `url(${gamestormBg}) center/cover` : theme.gradient }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
         >
-            {/* GameStorm: No glitch effect, just normal background */}
-            {isGameStorm && (
-                <div className="pointer-events-none absolute inset-0 z-0">
-                    <div
-                        className="absolute inset-0 w-full h-full"
-                        style={{
-                            background: `url(${gamestormBg}) center/cover no-repeat`,
-                        }}
-                    />
-                </div>
-            )}
+            {/* Background Layers */}
+            <div className="fixed inset-0 z-0 pointer-events-none">
+                {id === 'timescape' && <GridScan scanColor="#a21caf" className="w-full h-full" />}
+                {(id === 'build-a-thon' || id === 'codeoflies') && <MatrixRain color={theme.primary} />}
+                {id === 'ctrlaltelite' && <FlickeringGrid color={theme.primary} />}
+                {id === 'bugbounty' && <BugBountyBackground />}
+                {id === 'brainiac' && <InteractiveParticleField />}
+                {id === 'treasure-trove' && <FloatingLines linesGradient={[theme.primary, theme.secondary]} />}
+                {id === 'dpl' && <ShapeGrid hoverFillColor="#e8d020" shape="hexagon" />}
+            </div>
 
-            {/* GridScan background for Escape Room (timescape) */}
-            {id === 'timescape' && (
-                <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
-                    <GridScan
-                        sensitivity={0.5}
-                        linesColor="transparent"
-                        scanColor="#a21caf"
-                        scanOpacity={0.4}
-                        gridScale={0.1}
-                        lineThickness={1}
-                        lineJitter={0}
-                        bloomIntensity={0.6}
-                        chromaticAberration={0.02}
-                        noiseIntensity={0.01}
-                        scanGlow={1.0}
-                        scanSoftness={4}
-                        scanPhaseTaper={0.8}
-                        scanDuration={1.0}
-                        scanDelay={2.5}
-                        enablePost={false}
-                        className="w-full h-full"
-                        style={{ position: 'absolute', inset: 0, background: '#0a0014' }}
-                    />
-                </div>
-            )}
-
-
-                        {/* Matrix rain for build-a-thon and codeoflies, FlickeringGrid for ctrlaltelite, all with bg-slate-900/90 overlay */}
-                        {(id === 'build-a-thon' || id === 'codeoflies') && (
-                                <>
-                                    <MatrixRain color={theme.primary} />
-                                      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none bg-slate-900" />
-                                      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.85)' }} />
-                                </>
-                        )}
-                        {id === 'ctrlaltelite' && (
-                                <>
-                                    <FlickeringGrid color={theme.dark} className="z-0" />
-                                    <div className="fixed inset-0 w-full h-full z-0 pointer-events-none" />
-                                </>
-                        )}
-
-                        {/* LetterGlitch background for braniac and bugbounty, with fixed glitch colors and a dark overlay for readability */}
-                        {(id === 'brainiac' || id === 'bugbounty') && (
-                                <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
-                                    <LetterGlitch
-                                        glitchColors={[theme.primary, invertedPrimary]}
-                                        glitchSpeed={50}
-                                        centerVignette={false}
-                                        outerVignette={false}
-                                        smooth={true}
-                                        style={{ background: 'transparent' }}
-                                    />
-                                    <div className="absolute inset-0 bg-slate-900/70" style={{ zIndex: 1 }} />
-                                </div>
-                        )}
-
-            {/* Removed large ambient glows */}
-
-            {/* Page content */}
-            <div className="relative z-10 grow pt-24 pb-32 sm:pt-10 sm:pb-16 overflow-y-auto max-h-screen">
-                {/* Back button */}
-                <motion.div
-                    className="pt-6 md:pt-8 px-6 md:px-12 lg:px-20"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                    <button
+            {/* Content Container */}
+            <div className="relative z-10 grow pt-24 pb-12 overflow-y-auto">
+                <div className="max-w-7xl mx-auto px-6">
+                    <button 
                         onClick={handleBack}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-xs tracking-[0.2em] uppercase border transition-all duration-300 hover:scale-105 cursor-pointer"
-                        style={{
-                            borderColor: `${theme.primary}60`,
-                            color: theme.primary,
-                            backgroundColor: `${theme.primary}15`,
-                            // boxShadow removed
-                        }}
+                        className="mb-8 px-5 py-2 border rounded uppercase tracking-widest text-xs font-bold"
+                        style={{ borderColor: `${theme.primary}60`, color: theme.primary }}
                     >
                         ← Back to Events
                     </button>
-                </motion.div>
 
-                {/* Main layout */}
-                <div className="px-6 md:px-12 lg:px-20 mt-8 md:mt-12">
-                    <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start max-w-350 mx-auto w-full">
-                        {/* Mobile poster (top) */}
-                        <motion.div
-                            className="lg:hidden w-full flex justify-center"
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
-                        >
-                            <div
-                                className="relative rounded-2xl overflow-hidden"
-                                style={{
-                                    width: 'min(85vw, 340px)',
-                                    // boxShadow removed
-                                    border: `2px solid ${theme.primary}40`,
-                                }}
-                            >
-                                <img src={event.poster} alt={event.name} className="w-full h-auto" />
-                            </div>
-                        </motion.div>
-
-                        {/* Left column - Event info */}
-                        <motion.div
-                            className="flex-1 min-w-0"
-                            initial={{ opacity: 0, x: -40 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
-                        >
-                            {/* Category badge */}
-                            <div className="mb-4">
-                                <span
-                                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-[0.15em] uppercase border"
-                                    style={{
-                                        borderColor: `${theme.primary}50`,
-                                        color: theme.primary,
-                                        backgroundColor: `${theme.primary}15`,
-                                        // boxShadow removed
-                                    }}
-                                >
-                                    {event.category} · {event.categoryIcon}
-                                </span>
-                            </div>
-
-                            {/* Event name */}
-                            <h1
-                                className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase leading-none mb-4"
-                                style={{
-                                    fontFamily: "'VerminVibes', 'Orbitron', monospace",
-                                    color: '#fff',
-                                    // textShadow removed
-                                }}
-                            >
+                    <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start">
+                        {/* Event Info */}
+                        <div className="flex-1">
+                            <span className="px-3 py-1 border text-[10px] uppercase font-bold" style={{ color: theme.primary, borderColor: theme.primary }}>
+                                {event.category}
+                            </span>
+                            <h1 className="text-5xl md:text-7xl font-black uppercase my-4" style={{ color: '#fff', fontFamily: 'Orbitron, sans-serif' }}>
                                 {event.name}
                             </h1>
-
-                            {/* Tagline */}
-                            <p
-                                className="text-sm md:text-base font-mono tracking-wider mb-6"
-                                style={{ color: `${theme.primary}` }}
-                            >
-                                {event.tagline}
-                            </p>
-
-                            {/* Themed divider */}
-                            <div
-                                className="h-0.5 w-full mb-8"
-                                style={{
-                                    background: `linear-gradient(to right, ${theme.primary}80, ${theme.primary}20, transparent)`,
-                                    // boxShadow removed
-                                }}
-                            />
-
-                            {/* Description */}
-                            <p className="text-white/60 text-sm md:text-base leading-relaxed mb-8 max-w-xl font-mono">
-                                {event.description}
-                            </p>
-
-                            {/* Highlights */}
-                            <div className="space-y-3 mb-10">
-                                {event.highlights.map((item, i) => (
-                                    <motion.div
-                                        key={i}
-                                        className="flex items-start gap-3"
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
-                                    >
-                                        <span
-                                            className="w-2.5 h-2.5 rounded-full mt-1 shrink-0"
-                                            style={{
-                                                backgroundColor: theme.primary,
-                                                // boxShadow removed
-                                            }}
-                                        />
-                                        <span className="text-white/80 text-sm font-semibold">{item}</span>
-                                    </motion.div>
-                                ))}
+                            <p className="font-mono text-sm mb-6" style={{ color: theme.primary }}>{event.tagline}</p>
+                            <p className="text-white/70 mb-8 leading-relaxed max-w-2xl">{event.description}</p>
+                            
+                            <div className="grid grid-cols-2 gap-8 mb-10">
+                                <div>
+                                    <p className="text-[10px] uppercase text-white/40">Entry Fee</p>
+                                    <p className="text-3xl font-bold" style={{ color: theme.primary }}>{event.entryFee}</p>
+                                </div>
+                                <div>
+                                    <p className="text-[10px] uppercase text-white/40">Prize Pool</p>
+                                    <p className="text-3xl font-bold" style={{ color: theme.primary }}>{event.prizePool}</p>
+                                </div>
                             </div>
 
-                            {/* Pricing */}
-                            <motion.div
-                                className="flex flex-wrap items-end gap-10 mb-10"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.8 }}
-                            >
-                                <div>
-                                    <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-1">
-                                        Entry Fee
-                                    </p>
-                                    <p
-                                        className="text-3xl md:text-4xl font-black"
-                                        style={{
-                                            color: theme.primary,
-                                            // textShadow removed
-                                        }}
-                                    >
-                                        {event.entryFee}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-1">
-                                        Prize Pool
-                                    </p>
-                                    <p
-                                        className="text-3xl md:text-4xl font-black"
-                                        style={{
-                                            color: theme.primary,
-                                            // textShadow removed
-                                        }}
-                                    >
-                                        {event.prizePool}
-                                    </p>
-                                </div>
-                            </motion.div>
-
-                            {/* Register button */}
-                            <motion.a
-                                href={event.registerLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-block px-10 py-4 rounded-lg font-black text-sm tracking-[0.25em] uppercase text-black transition-all duration-300 no-underline"
-                                style={{
-                                    backgroundColor: theme.primary,
-                                    // boxShadow removed
-                                }}
-                                whileHover={{
-                                    scale: 1.05,
-                                    // boxShadow removed
-                                }}
-                                whileTap={{ scale: 0.97 }}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 1 }}
+                            <a 
+                                href={event.registerLink} 
+                                target="_blank" 
+                                className="inline-block px-10 py-4 font-black rounded uppercase tracking-widest text-black"
+                                style={{ backgroundColor: theme.primary }}
                             >
                                 Register Now
-                            </motion.a>
-                        </motion.div>
+                            </a>
+                        </div>
 
-                        {/* Right column - Floating poster (desktop only) */}
-                        <motion.div
-                            className="hidden lg:block shrink-0"
-                            style={{ width: 'clamp(300px, 25vw, 420px)' }}
-                            initial={{ opacity: 0, x: 60, rotate: 3 }}
-                            animate={{ opacity: 1, x: 0, rotate: 0 }}
-                            transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.4 }}
+                        {/* Poster */}
+                        <motion.div 
+                            className="w-full max-w-sm shrink-0 rounded-2xl overflow-hidden border-2"
+                            style={{ borderColor: `${theme.primary}40` }}
+                            animate={{ y: [0, -10, 0] }}
+                            transition={{ duration: 4, repeat: Infinity }}
                         >
-                            <motion.div
-                                className="relative rounded-2xl overflow-hidden"
-                                style={{
-                                    // boxShadow removed
-                                    border: `2px solid ${theme.primary}40`,
-                                }}
-                                animate={{
-                                    y: [0, -14, 0],
-                                }}
-                                transition={{
-                                    duration: 4,
-                                    repeat: Infinity,
-                                    ease: 'easeInOut',
-                                }}
-                            >
-                                <img
-                                    src={event.poster}
-                                    alt={event.name}
-                                    className="w-full h-auto"
-                                />
-                                {/* Poster top glow */}
-                                <div
-                                    className="absolute inset-0 opacity-15"
-                                    style={{
-                                        background: `radial-gradient(circle at 50% 0%, ${theme.primary} 0%, transparent 60%)`,
-                                    }}
-                                />
-                            </motion.div>
+                            <img src={event.poster} alt={event.name} className="w-full h-auto" />
                         </motion.div>
                     </div>
                 </div>
-
-                {/* Event meta info */}
-                <motion.div
-                    className="px-6 md:px-12 lg:px-20 mt-12 max-w-350 mx-auto"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 1.1 }}
-                >
-                    <div className="flex flex-wrap gap-6 md:gap-10">
-                        {[
-                            { label: 'Date', value: event.date },
-                            { label: 'Time', value: event.time },
-                            { label: 'Venue', value: event.venue },
-                        ].map((item) => (
-                            <div
-                                key={item.label}
-                                className="px-5 py-3 rounded-lg border"
-                                style={{
-                                    borderColor: `${theme.primary}25`,
-                                    backgroundColor: `${theme.primary}08`,
-                                    // boxShadow removed
-                                }}
-                            >
-                                <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-0.5">
-                                    {item.label}
-                                </p>
-                                <p className="text-sm font-bold text-white/80">{item.value}</p>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
             </div>
 
-            {/* Bottom marquee */}
-            <MarqueeStrip words={theme.marqueeWords} color={theme.primary} />
-            {/* Sticky Navbar at bottom */}
-            <Footer scrollToRefs={{ heroRef: true }} scrollToSection={() => navigate('/')} />
-            <Navbar className="fixed bottom-0 left-0 w-full z-50" />
+            <MarqueeStrip words={theme.marqueeWords || []} color={theme.primary} />
+            <Footer />
         </motion.div>
     );
 };
 
 export default EventDetails;
-/* Glitch effect styles for GameStorm foreground */

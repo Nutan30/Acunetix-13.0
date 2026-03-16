@@ -25,7 +25,7 @@ const Sponsors = forwardRef((props, ref) => {
         <ShapeGrid
           direction="diagonal"
           speed={0.5}
-          borderColor="#271E37"
+          borderColor="#00ffc826"
           squareSize={40}
           hoverFillColor="#222"
           shape="square"
