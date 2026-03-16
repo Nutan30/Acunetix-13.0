@@ -57,7 +57,7 @@ function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
         <About ref={scrollToRefs.aboutRef} />
         <Event ref={scrollToRefs.eventRef} />
         <Schedule ref={scrollToRefs.scheduleRef} />
-        <Sponsors ref={scrollToRefs.sponsorsRef} />
+        {/*<Sponsors ref={scrollToRefs.sponsorsRef} />} */}
         <Reel ref={scrollToRefs.reelRef} />
       </main>
 
