@@ -185,57 +185,7 @@ const EventDetails = () => {
                 </div>
             )}
 
-            {/* Large ambient glows — very visible */}
-            {(id !== 'treasure-trove' && id !== 'dpl') && (
-                <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-                    {/* Top-right glow */}
-                    <div
-                        className="absolute rounded-full"
-                        style={{
-                            top: '-15%',
-                            right: '-10%',
-                            width: '700px',
-                            height: '700px',
-                            background: theme.primary,
-                            opacity: 0.12,
-                            filter: 'blur(120px)',
-                        }}
-                    />
-                    {/* Bottom-left glow */}
-                    <div
-                        className="absolute rounded-full"
-                        style={{
-                            bottom: '-10%',
-                            left: '-10%',
-                            width: '500px',
-                            height: '500px',
-                            background: theme.primary,
-                            opacity: 0.08,
-                            filter: 'blur(100px)',
-                        }}
-                    />
-                    {/* Center glow */}
-                    <div
-                        className="absolute rounded-full"
-                        style={{
-                            top: '30%',
-                            left: '40%',
-                            width: '600px',
-                            height: '600px',
-                            background: theme.primary,
-                            opacity: 0.05,
-                            filter: 'blur(150px)',
-                        }}
-                    />
-                    {/* Vignette overlay */}
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)',
-                        }}
-                    />
-                </div>
-            )}
+            {/* ...glow overlays removed... */}
 
             {/* Page content */}
             <div className="relative z-10 grow pt-24 pb-32">
@@ -253,7 +203,7 @@ const EventDetails = () => {
                             borderColor: `${theme.primary}60`,
                             color: theme.primary,
                             backgroundColor: `${theme.primary}15`,
-                            boxShadow: `0 0 15px ${theme.primary}15`,
+                            boxShadow: 'none',
                         }}
                     >
                         ← Back to Events
@@ -274,7 +224,7 @@ const EventDetails = () => {
                                 className="relative rounded-2xl overflow-hidden"
                                 style={{
                                     width: 'min(85vw, 340px)',
-                                    boxShadow: `0 0 50px ${theme.primary}40, 0 0 100px ${theme.primary}15, 0 20px 60px rgba(0,0,0,0.5)`,
+                                    boxShadow: 'none',
                                     border: `2px solid ${theme.primary}40`,
                                 }}
                             >
@@ -297,7 +247,7 @@ const EventDetails = () => {
                                         borderColor: `${theme.primary}50`,
                                         color: theme.primary,
                                         backgroundColor: `${theme.primary}15`,
-                                        boxShadow: `0 0 20px ${theme.primary}15`,
+                                        boxShadow: 'none',
                                     }}
                                 >
                                     {event.category} · {event.categoryIcon}
@@ -310,7 +260,7 @@ const EventDetails = () => {
                                 style={{
                                     fontFamily: "'VerminVibes', 'Orbitron', monospace",
                                     color: '#fff',
-                                    textShadow: `0 0 60px ${theme.primary}40, 0 0 120px ${theme.primary}20`,
+                                    textShadow: 'none',
                                 }}
                             >
                                 {event.name}
@@ -329,7 +279,7 @@ const EventDetails = () => {
                                 className="h-0.5 w-full mb-8"
                                 style={{
                                     background: `linear-gradient(to right, ${theme.primary}80, ${theme.primary}20, transparent)`,
-                                    boxShadow: `0 0 15px ${theme.primary}40`,
+                                    boxShadow: 'none',
                                 }}
                             />
 
@@ -352,7 +302,7 @@ const EventDetails = () => {
                                             className="w-2.5 h-2.5 rounded-full mt-1 shrink-0"
                                             style={{
                                                 backgroundColor: theme.primary,
-                                                boxShadow: `0 0 10px ${theme.primary}80`,
+                                                boxShadow: 'none',
                                             }}
                                         />
                                         <span className="text-white/80 text-xs sm:text-sm font-semibold break-words">{item}</span>
@@ -375,7 +325,7 @@ const EventDetails = () => {
                                         className="text-3xl md:text-4xl font-black"
                                         style={{
                                             color: theme.primary,
-                                            textShadow: `0 0 20px ${theme.primary}50`,
+                                            textShadow: 'none',
                                         }}
                                     >
                                         {event.entryFee}
@@ -389,7 +339,7 @@ const EventDetails = () => {
                                         className="text-3xl md:text-4xl font-black"
                                         style={{
                                             color: theme.primary,
-                                            textShadow: `0 0 20px ${theme.primary}50`,
+                                            textShadow: 'none',
                                         }}
                                     >
                                         {event.prizePool}
@@ -405,11 +355,11 @@ const EventDetails = () => {
                                 className="inline-block px-10 py-4 rounded-lg font-black text-sm tracking-[0.25em] uppercase text-black transition-all duration-300 no-underline"
                                 style={{
                                     backgroundColor: theme.primary,
-                                    boxShadow: `0 0 40px ${theme.primary}60, 0 0 80px ${theme.primary}30, 0 10px 40px ${theme.primary}30`,
+                                    boxShadow: 'none',
                                 }}
                                 whileHover={{
                                     scale: 1.05,
-                                    boxShadow: `0 0 60px ${theme.primary}90, 0 0 120px ${theme.primary}40, 0 15px 60px ${theme.primary}40`,
+                                    boxShadow: 'none',
                                 }}
                                 whileTap={{ scale: 0.97 }}
                                 initial={{ opacity: 0, y: 20 }}
@@ -431,7 +381,7 @@ const EventDetails = () => {
                             <motion.div
                                 className="relative rounded-2xl overflow-hidden"
                                 style={{
-                                    boxShadow: `0 0 60px ${theme.primary}35, 0 0 120px ${theme.primary}15, 0 25px 80px rgba(0,0,0,0.5)`,
+                                    boxShadow: 'none',
                                     border: `2px solid ${theme.primary}40`,
                                 }}
                                 animate={{
@@ -448,19 +398,14 @@ const EventDetails = () => {
                                     alt={event.name}
                                     className="w-full h-auto"
                                 />
-                                {/* Poster top glow */}
-                                <div
-                                    className="absolute inset-0 opacity-15"
-                                    style={{
-                                        background: `radial-gradient(circle at 50% 0%, ${theme.primary} 0%, transparent 60%)`,
-                                    }}
-                                />
+                                {/* ...poster top glow removed... */}
                             </motion.div>
                         </motion.div>
                     </div>
                 </div>
 
-                {/* Event meta info */}
+                {/* Event meta info (date, time, venue) commented out for now */}
+                {/**
                 <motion.div
                     className="px-6 md:px-12 lg:px-20 mt-12 max-w-350 mx-auto"
                     initial={{ opacity: 0, y: 30 }}
@@ -479,7 +424,7 @@ const EventDetails = () => {
                                 style={{
                                     borderColor: `${theme.primary}25`,
                                     backgroundColor: `${theme.primary}08`,
-                                    boxShadow: `0 0 20px ${theme.primary}08`,
+                                    boxShadow: 'none',
                                 }}
                             >
                                 <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-0.5">
@@ -490,6 +435,7 @@ const EventDetails = () => {
                         ))}
                     </div>
                 </motion.div>
+                */}
             </div>
 
             {/* Bottom marquee */}
