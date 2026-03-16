@@ -46,15 +46,15 @@ export default function BugBountyBackground() {
       <style dangerouslySetInnerHTML={{__html: `
         .bugbounty-bg-section {
             position: absolute;
-            width: 400vw;
-            height: 225vh;
-            background: #1a1a1a;
+            width: 100vw;
+            height: 100vh;
+            background: #0e0d0d;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             z-index: 0;
-            top: -25;
-            left: -25;
+            top: 0;
+            left: 0;
         }
 
         .bugbounty-row {

@@ -2,20 +2,18 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import eventsData from '../data/eventsData';
-import ShapeGrid from './ShapeGrid';
 import gamestormBg from '../assets/gamestrom bg.jpg';
 import gamestormFg from '../assets/foreground gamestrom.png';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import FlickeringGrid from './FlickeringGrid';
-import CtrlAltEliteBackground from './CtrlAltEliteBackground';
 import MatrixRain from './MatrixRain';
 import LetterGlitch from './LetterGlitch';
-import { GridScan } from './GridScan';
-import BugBountyBackground from './BugBountyBackground';
 import InteractiveParticleField from './InteractiveParticleField';
-import Threads from './Threads';
 import FloatingLines from './FloatingLines';
+import BugBountyBackground from './BugBountyBackground';
+import CtrlAltEliteBackground from './CtrlAltEliteBackground';
+import ShapeGrid from './ShapeGrid';
 
 /* ── Particle Canvas — dramatic floating particles ── */
 const ParticleCanvas = ({ color }) => {
@@ -172,18 +170,19 @@ const EventDetails = () => {
     const invertedPrimary = invertHex(theme.primary);
 
 
-    // GameStorm custom background and glitch foreground (React+Tailwind only)
+    // GameStorm custom background
     const isGameStorm = id === 'gamestorm';
+
     return (
         <motion.div
-            className="min-h-screen relative flex flex-col overflow-x-hidden"
-            style={isGameStorm ? { background: `url(${gamestormBg}) center/cover, ${theme.gradient}` } : { background: theme.gradient }}
+            className="min-h-screen relative flex flex-col overflow-x-hidden bg-black"
+            style={isGameStorm ? { background: `url(${gamestormBg}) center/cover, ${theme.gradient}` } : (id === 'treasure-trove' || id === 'dpl' ? { background: '#000' } : { background: theme.gradient })}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
         >
-            {/* GameStorm: No glitch effect, just normal background */}
+            {/* GameStorm: normal background image */}
             {isGameStorm && (
                 <div className="pointer-events-none absolute inset-0 z-0">
                     <div
@@ -194,80 +193,128 @@ const EventDetails = () => {
                     />
                 </div>
             )}
-
-            {/* GridScan background for Escape Room (timescape) */}
-            {/* GridScan background for Escape Room (timescape) */}
-{id === 'timescape' && (
-    <div className="fixed inset-0 w-full h-full z-10 pointer-events-none bg-[#0a0014]">
-        <GridScan
-            // Using your requested specs
-            sensitivity={0.55}
-            lineThickness={1}
-            gridScale={0.1}
-            scanOpacity={0.4}
-            enablePost={true}
-            bloomIntensity={0.6}
-            chromaticAberration={0.002}
-            noiseIntensity={0.01}
-            
-            // Applying your Purple theme colors
-            linesColor="#a21caf"    // Darker purple base lines
-            scanColor={'#a21caf'} // Your primary purple (e.g., #a21caf)
-        />
-        {/* Adds a dark vignette to make the edges blend into the page */}
-        
-    </div>
-)}
+            {/* ...existing code... */}
 
 
-                        {/* Matrix rain for build-a-thon and codeoflies, FlickeringGrid for ctrlaltelite, all with bg-slate-900/90 overlay */}
-                        {(id === 'build-a-thon' || id === 'codeoflies') && (
-                                <>
-                                    <MatrixRain color={theme.primary} />
-                                      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none bg-slate-900" />
-                                      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.85)' }} />
-                                </>
-                        )}
-                        {id === 'ctrlaltelite' && (
-                            <CtrlAltEliteBackground />
-                        )}
-                        {id === 'treasure-trove' && <FloatingLines linesGradient={[theme.primary, theme.secondary]} />}
-                         {id === 'dpl' && (
-  <div className="fixed inset-0 z-1 w-full h-full pointer-events-none">
-    <ShapeGrid 
-      hoverFillColor="#e8d020" 
-      shape="hexagon" 
-      borderColor="rgba(255, 255, 255, 0.1)" 
-      
-    />
-  </div>
-                    
-)}
+            {/* Matrix rain for build-a-thon and codeoflies, FlickeringGrid for ctrlaltelite, all with bg-slate-900/90 overlay */}
+            {(id === 'build-a-thon' || id === 'codeoflies') && (
+                <>
+                    <MatrixRain color={theme.primary} />
+                    <div className="fixed inset-0 w-full h-full z-0 pointer-events-none bg-slate-900" />
+                    <div className="fixed inset-0 w-full h-full z-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.85)' }} />
+                </>
+            )}
+            {id === 'ctrlaltelite' && (
+                <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
+                    <CtrlAltEliteBackground />
+                </div>
+            )}
 
-                        {/* LetterGlitch background for braniac, BugBountyBackground for bugbounty */}
-                        {id === 'brainiac' && (
-                            <InteractiveParticleField/>
-                        )}
-                        {id === 'bugbounty' && (
-                            <BugBountyBackground />
-                        )}
-                        {id === 'escap' && (
-  <div className="fixed inset-0 -z-10 w-full h-full bg-[#0e0d0d] pointer-events-none">
-    <GridScan 
-      scanColor="#39ff14"     // Match your theme (e.g., Neon Green)
-      linesColor="#1a1a1a"    // Subtle grid lines
-      gridScale={0.15}        // Size of the grid
-      scanOpacity={0.6} 
-      showPreview={false}     // Keep this false for a clean background
-      enableWebcam={false}    // Set to true if you want the face-tracking feature
-    />
-  </div>
-)}
+            {/* Custom Icon Matrix background for bugbounty */}
+            {id === 'bugbounty' && (
+                <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
+                    <BugBountyBackground />
+                </div>
+            )}
 
-            {/* Removed large ambient glows */}
+            {/* Interactive Particle Field for brainiac */}
+            {id === 'brainiac' && (
+                <div className="fixed inset-0 w-full h-full z-0">
+                    <InteractiveParticleField />
+                </div>
+            )}
+
+            {/* Floating Lines for treasure-trove */}
+            {id === 'treasure-trove' && (
+                <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
+                    <div style={{ width: '100%', height: '100%', position: 'absolute' }} className="pointer-events-auto">
+                        <FloatingLines
+                            linesGradient={['#fff5cc', theme.primary, theme.secondary, theme.primary, '#fff5cc']}
+                            enabledWaves={["top", "bottom", "middle"]}
+                            // Array - specify line count per wave; Number - same count for all waves
+                            lineCount={5}
+                            // Array - specify line distance per wave; Number - same distance for all waves
+                            lineDistance={14.5}
+                            bendRadius={13.5}
+                            bendStrength={0}
+                            interactive={true}
+                            parallax={true}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {/* ShapeGrid Animation for DPL */}
+            {id === 'dpl' && (
+                <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
+                    <div style={{ width: '100%', height: '100%', position: 'absolute' }} className="pointer-events-auto">
+                        <ShapeGrid
+                            speed={0.44}
+                            squareSize={40}
+                            direction="left" // up, down, left, right, diagonal
+                            borderColor="#353317" // yellowish dark brown hue fitting DPL theme
+                            hoverFillColor="#e8d020" // bright yellow DPL primary
+                            shape="hexagon" // hexagon fits cricket/sports well
+                            hoverTrailAmount={0} // number of trailing hovered shapes (0 = no trail)
+                        />
+                    </div>
+                </div>
+            )}
+
+            {/* Large ambient glows — very visible */}
+            {(id !== 'treasure-trove' && id !== 'dpl') && (
+                <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+                    {/* Top-right glow */}
+                    <div
+                        className="absolute rounded-full"
+                        style={{
+                            top: '-15%',
+                            right: '-10%',
+                            width: '700px',
+                            height: '700px',
+                            background: theme.primary,
+                            opacity: 0.12,
+                            filter: 'blur(120px)',
+                        }}
+                    />
+                    {/* Bottom-left glow */}
+                    <div
+                        className="absolute rounded-full"
+                        style={{
+                            bottom: '-10%',
+                            left: '-10%',
+                            width: '500px',
+                            height: '500px',
+                            background: theme.primary,
+                            opacity: 0.08,
+                            filter: 'blur(100px)',
+                        }}
+                    />
+                    {/* Center glow */}
+                    <div
+                        className="absolute rounded-full"
+                        style={{
+                            top: '30%',
+                            left: '40%',
+                            width: '600px',
+                            height: '600px',
+                            background: theme.primary,
+                            opacity: 0.05,
+                            filter: 'blur(150px)',
+                        }}
+                    />
+                    {/* Vignette overlay */}
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)',
+                        }}
+                    />
+                </div>
+            )}
 
             {/* Page content */}
-            <div className="relative z-10 grow pt-24 pb-32 sm:pt-10 sm:pb-16 overflow-y-auto max-h-screen">
+            <div className="relative z-10 grow pt-24 pb-32">
                 {/* Back button */}
                 <motion.div
                     className="pt-6 md:pt-8 px-6 md:px-12 lg:px-20"
@@ -282,7 +329,7 @@ const EventDetails = () => {
                             borderColor: `${theme.primary}60`,
                             color: theme.primary,
                             backgroundColor: `${theme.primary}15`,
-                            // boxShadow removed
+                            boxShadow: `0 0 15px ${theme.primary}15`,
                         }}
                     >
                         ← Back to Events
@@ -290,8 +337,8 @@ const EventDetails = () => {
                 </motion.div>
 
                 {/* Main layout */}
-                <div className="px-6 md:px-12 lg:px-20 mt-8 md:mt-12">
-                    <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start max-w-350 mx-auto w-full">
+                <div className="px-4 sm:px-6 md:px-12 lg:px-20 mt-8 md:mt-12 overflow-hidden">
+                    <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start w-full max-w-7xl mx-auto">
                         {/* Mobile poster (top) */}
                         <motion.div
                             className="lg:hidden w-full flex justify-center"
@@ -303,7 +350,7 @@ const EventDetails = () => {
                                 className="relative rounded-2xl overflow-hidden"
                                 style={{
                                     width: 'min(85vw, 340px)',
-                                    // boxShadow removed
+                                    boxShadow: `0 0 50px ${theme.primary}40, 0 0 100px ${theme.primary}15, 0 20px 60px rgba(0,0,0,0.5)`,
                                     border: `2px solid ${theme.primary}40`,
                                 }}
                             >
@@ -319,14 +366,14 @@ const EventDetails = () => {
                             transition={{ duration: 0.6, delay: 0.3 }}
                         >
                             {/* Category badge */}
-                            <div className="mb-4">
+                            <div className="mb-4 flex flex-wrap">
                                 <span
-                                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-[0.15em] uppercase border"
+                                    className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 text-[10px] md:text-xs font-semibold tracking-[0.15em] uppercase border"
                                     style={{
                                         borderColor: `${theme.primary}50`,
                                         color: theme.primary,
                                         backgroundColor: `${theme.primary}15`,
-                                        // boxShadow removed
+                                        boxShadow: `0 0 20px ${theme.primary}15`,
                                     }}
                                 >
                                     {event.category} · {event.categoryIcon}
@@ -335,11 +382,11 @@ const EventDetails = () => {
 
                             {/* Event name */}
                             <h1
-                                className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase leading-none mb-4"
+                                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase leading-tight md:leading-none mb-4 break-words"
                                 style={{
                                     fontFamily: "'VerminVibes', 'Orbitron', monospace",
                                     color: '#fff',
-                                    // textShadow removed
+                                    textShadow: `0 0 60px ${theme.primary}40, 0 0 120px ${theme.primary}20`,
                                 }}
                             >
                                 {event.name}
@@ -358,12 +405,12 @@ const EventDetails = () => {
                                 className="h-0.5 w-full mb-8"
                                 style={{
                                     background: `linear-gradient(to right, ${theme.primary}80, ${theme.primary}20, transparent)`,
-                                    // boxShadow removed
+                                    boxShadow: `0 0 15px ${theme.primary}40`,
                                 }}
                             />
 
                             {/* Description */}
-                            <p className="text-white/60 text-sm md:text-base leading-relaxed mb-8 max-w-xl font-mono">
+                            <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6 md:mb-8 font-mono break-words">
                                 {event.description}
                             </p>
 
@@ -381,17 +428,17 @@ const EventDetails = () => {
                                             className="w-2.5 h-2.5 rounded-full mt-1 shrink-0"
                                             style={{
                                                 backgroundColor: theme.primary,
-                                                // boxShadow removed
+                                                boxShadow: `0 0 10px ${theme.primary}80`,
                                             }}
                                         />
-                                        <span className="text-white/80 text-sm font-semibold">{item}</span>
+                                        <span className="text-white/80 text-xs sm:text-sm font-semibold break-words">{item}</span>
                                     </motion.div>
                                 ))}
                             </div>
 
                             {/* Pricing */}
                             <motion.div
-                                className="flex flex-wrap items-end gap-10 mb-10"
+                                className="flex flex-row flex-wrap items-end gap-6 md:gap-10 mb-10"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.8 }}
@@ -404,7 +451,7 @@ const EventDetails = () => {
                                         className="text-3xl md:text-4xl font-black"
                                         style={{
                                             color: theme.primary,
-                                            // textShadow removed
+                                            textShadow: `0 0 20px ${theme.primary}50`,
                                         }}
                                     >
                                         {event.entryFee}
@@ -418,7 +465,7 @@ const EventDetails = () => {
                                         className="text-3xl md:text-4xl font-black"
                                         style={{
                                             color: theme.primary,
-                                            // textShadow removed
+                                            textShadow: `0 0 20px ${theme.primary}50`,
                                         }}
                                     >
                                         {event.prizePool}
@@ -434,11 +481,11 @@ const EventDetails = () => {
                                 className="inline-block px-10 py-4 rounded-lg font-black text-sm tracking-[0.25em] uppercase text-black transition-all duration-300 no-underline"
                                 style={{
                                     backgroundColor: theme.primary,
-                                    // boxShadow removed
+                                    boxShadow: `0 0 40px ${theme.primary}60, 0 0 80px ${theme.primary}30, 0 10px 40px ${theme.primary}30`,
                                 }}
                                 whileHover={{
                                     scale: 1.05,
-                                    // boxShadow removed
+                                    boxShadow: `0 0 60px ${theme.primary}90, 0 0 120px ${theme.primary}40, 0 15px 60px ${theme.primary}40`,
                                 }}
                                 whileTap={{ scale: 0.97 }}
                                 initial={{ opacity: 0, y: 20 }}
@@ -460,7 +507,7 @@ const EventDetails = () => {
                             <motion.div
                                 className="relative rounded-2xl overflow-hidden"
                                 style={{
-                                    // boxShadow removed
+                                    boxShadow: `0 0 60px ${theme.primary}35, 0 0 120px ${theme.primary}15, 0 25px 80px rgba(0,0,0,0.5)`,
                                     border: `2px solid ${theme.primary}40`,
                                 }}
                                 animate={{
@@ -508,7 +555,7 @@ const EventDetails = () => {
                                 style={{
                                     borderColor: `${theme.primary}25`,
                                     backgroundColor: `${theme.primary}08`,
-                                    // boxShadow removed
+                                    boxShadow: `0 0 20px ${theme.primary}08`,
                                 }}
                             >
                                 <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/30 mb-0.5">
