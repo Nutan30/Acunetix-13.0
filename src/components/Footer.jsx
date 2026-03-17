@@ -20,7 +20,7 @@ export default function Footer({ scrollToRefs, scrollToSection, className = "" }
         {/* Branding */}
         <div className="flex-1 min-w-[180px] space-y-2">
           <h1 className="text-3xl sm:text-4xl font-semibold tracking-wide">ACUNETIX 13.0</h1>
-          <p className="text-gray-400 text-sm sm:text-base">Where the Journey is the Challenge</p>
+          <p className="font-family:'IM_Fell_DW_Pica_sc', bold; text-gray-400 text-sm sm:text-base">Where the Journey is the Challenge</p>
         </div>
 
         {/* Logo */}

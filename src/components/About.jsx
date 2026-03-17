@@ -73,13 +73,8 @@ const About = forwardRef((props, ref) => {
           </h2>
         </div>
 
-        <p className="about-paragraph text-center text-base md:text-3xl text-gray-200 leading-relaxed max-w-4xl mx-auto px-4 im-fell-pica">
-          Acunetix 13.0 is a flagship event organised by ACES and CSI, offering
-          a range of Tech &amp; Non-Tech events. Participants take part in
-          diverse competitions, showcasing their skills and earning recognition.
-          With exciting prizes and a mix of solo and team events, it&apos;s a
-          unique opportunity for students to shine and be part of an
-          unforgettable experience.
+        <p className="about-paragraph text-center text-base md:text-3xl text-gray-200 leading-relaxed max-w-4xl mx-auto px-4">
+          Acunetix 13.0 is a flagship event organised by ACES and CSI, offering a range of Tech & Non-Tech events. Participants take part in diverse competitions, showcasing their skills and earning recognition. With exciting prizes and a mix of solo and team events, it&apos;s a unique opportunity for students to shine and be part of an unforgettable experience.
         </p>
       </div>
       
