@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import eventsData from '../data/eventsData';
@@ -231,7 +231,11 @@ const EventDetails = () => {
                                     border: `2px solid ${theme.primary}40`,
                                 }}
                             >
-                                <img src={event.poster} alt={event.name} className="w-full h-auto" />
+                                <img
+                                    src={event.poster}
+                                    alt={event.name}
+                                    className="w-full h-auto block"
+                                />
                             </div>
                         </motion.div>
 
@@ -399,7 +403,7 @@ const EventDetails = () => {
                                 <img
                                     src={event.poster}
                                     alt={event.name}
-                                    className="w-full h-auto"
+                                    className="w-full h-auto block"
                                 />
                                 {/* ...poster top glow removed... */}
                             </motion.div>
@@ -439,13 +443,43 @@ const EventDetails = () => {
                     </div>
                 </motion.div>
                 */}
+
+                {/* Registration instructions */}
+                <motion.div
+                    className="px-4 sm:px-6 md:px-12 lg:px-20 mt-12"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 1.05 }}
+                >
+                    <div
+                        className="w-full max-w-7xl mx-auto rounded-xl border p-5 md:p-7"
+                        style={{
+                            borderColor: `${theme.primary}45`,
+                            backgroundColor: 'rgba(0, 0, 0, 0.45)',
+                            backdropFilter: 'blur(4px)',
+                        }}
+                    >
+                        <p
+                            className="text-xl md:text-3xl font-black uppercase mb-5 tracking-[0.22em]"
+                            style={{ color: theme.primary }}
+                        >
+                            Instructions
+                        </p>
+
+                        <ol className="list-decimal pl-6 space-y-4 text-white text-xl md:text-2xl leading-relaxed md:leading-10 font-extrabold">
+                            <li>Please ensure that all the details provided in the form are accurate and complete.</li>
+                            <li>The payment made must match the event you have registered for; incorrect selections or payments will not be accepted or refunded.</li>
+                            <li>Further details and updates regarding the event will be communicated via email.</li>
+                        </ol>
+                    </div>
+                </motion.div>
             </div>
 
             {/* Bottom marquee */}
             <MarqueeStrip words={theme.marqueeWords} color={theme.primary} />
             {/* Sticky Navbar at bottom */}
             <Footer scrollToRefs={{ heroRef: true }} scrollToSection={() => navigate('/')} />
-            <Navbar className="fixed bottom-0 left-0 w-full z-50" />
+            <Navbar scrollToRefs={{}} scrollToSection={() => {}} isScrolled={true} />
         </motion.div>
     );
 };

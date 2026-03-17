@@ -44,7 +44,7 @@ const About = forwardRef((props, ref) => {
           radiusStep={dimensions.isMobile ? 0.1 : 0.15 * scaleFactor}
 
           scaleRate={0.1}
-          opacity={0.8}
+          opacity={0.35}
           noiseAmount={0.1}
           rotation={0}
           ringGap={1.5}
@@ -73,7 +73,7 @@ const About = forwardRef((props, ref) => {
           </h2>
         </div>
 
-        <p className="about-paragraph text-center text-base md:text-3xl text-gray-200 leading-relaxed max-w-4xl mx-auto px-4 im-fell-pica">
+        <p className="about-paragraph text-center text-base md:text-3xl text-gray-200 leading-relaxed max-w-4xl mx-auto px-4">
           Acunetix 13.0 is a flagship event organised by ACES and CSI, offering
           a range of Tech &amp; Non-Tech events. Participants take part in
           diverse competitions, showcasing their skills and earning recognition.

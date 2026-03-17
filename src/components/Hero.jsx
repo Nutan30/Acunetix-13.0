@@ -91,7 +91,7 @@ const Hero = forwardRef((props, ref) => {
         
         <div className="mt-4 md:mt-8 w-full flex flex-col items-center">
           <span className="block text-sm md:text-xl font-semibold text-white/70 tracking-[0.4em] mb-8 uppercase">
-            {Date.now() > TARGET_DATE ? "Event is Live" : "Event Starts In"}
+            {Date.now() > TARGET_DATE ? "Event is Live" : "Game Begins In"}
           </span>
 
           <div className="flex gap-3 md:gap-6 justify-center items-center">

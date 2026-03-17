@@ -6,6 +6,7 @@ import eventsData from '../data/eventsData';
 const EventCard = React.memo(({ event, isActive }) => {
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
+  const hasPoster = Boolean(event.poster);
 
   return (
     <div
@@ -43,11 +44,24 @@ const EventCard = React.memo(({ event, isActive }) => {
             transition: 'border-color 0.35s ease',
           }}
         >
-          <img
-            src={event.poster}
-            alt={event.name}
-            className="w-full h-full object-cover"
-          />
+          {hasPoster ? (
+            <img
+              src={event.poster}
+              alt={event.name}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div
+              className="w-full h-full flex items-center justify-center text-center px-5"
+              style={{
+                background: `linear-gradient(150deg, ${event.theme.secondary} 0%, ${event.theme.primary}45 100%)`,
+              }}
+            >
+              <h4 className="text-white text-2xl md:text-3xl font-black tracking-wide uppercase">
+                {event.name}
+              </h4>
+            </div>
+          )}
 
           {/* Hover overlay — always in DOM, toggled via opacity */}
           <div
@@ -123,8 +137,8 @@ EventCard.displayName = 'EventCard';
 /* ─── Main Event Section ─── */
 const Event = forwardRef((props, ref) => {
   const scrollRef = useRef(null);
-  // Find the index of ctrlaltelite, default to middle if not found
-  const initialIndex = eventsData.findIndex(e => e.id === 'ctrlaltelite');
+  // Default to Code of Lies if present.
+  const initialIndex = eventsData.findIndex((e) => e.id === 'codeoflies');
   const startIndex = initialIndex !== -1 ? initialIndex : Math.floor(eventsData.length / 2);
   const [activeIndex, setActiveIndex] = useState(startIndex);
 
