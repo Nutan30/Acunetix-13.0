@@ -46,7 +46,7 @@ const Hero = forwardRef((props, ref) => {
   );
 
   return (
-    <section ref={ref} className="relative w-full min-h-screen h-[100dvh] overflow-hidden flex items-center justify-center bg-black">
+    <section ref={ref} className="relative w-full min-h-screen h-dvh overflow-hidden flex items-center justify-center bg-black">
       {/* Background Video */}
       <video
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
@@ -54,7 +54,7 @@ const Hero = forwardRef((props, ref) => {
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
       >
         <source src={heroVideoWebm} type="video/webm" />
         <source src={heroVideoMp4} type="video/mp4" />

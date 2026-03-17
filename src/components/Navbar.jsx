@@ -50,14 +50,14 @@ const Navbar = ({ scrollToRefs = {}, scrollToSection = () => {}, isScrolled = fa
             Home
           </a>
           <a
-            href="#events"
+            href="#about"
             onClick={(e) => {
               e.preventDefault();
-              handleLinkClick(scrollToRefs?.eventRef, "events");
+              handleLinkClick(scrollToRefs?.aboutRef, "about");
             }}
             className="hover:text-zinc-400 transition-colors duration-200 text-lg font-medium px-4"
           >
-            Events
+            About
           </a>
         </div>
 
@@ -81,24 +81,24 @@ const Navbar = ({ scrollToRefs = {}, scrollToSection = () => {}, isScrolled = fa
         {/* Right as - Desktop */}
         <div className="hidden md:flex space-x-12 gap-16">
           <a
+            href="#events"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLinkClick(scrollToRefs?.eventRef, "events");
+            }}
+            className="hover:text-zinc-400 transition-colors duration-200 text-lg font-medium px-4 mx-5"
+          >
+            Event
+          </a>
+          <a
             href="#schedule"
             onClick={(e) => {
               e.preventDefault();
               handleScheduleClick();
             }}
-            className="hover:text-zinc-400 transition-colors duration-200 text-lg font-medium px-4 mx-5"
-          >
-            Schedule
-          </a>
-          <a
-            href="#about"
-            onClick={(e) => {
-              e.preventDefault();
-              handleLinkClick(scrollToRefs?.aboutRef, "about");
-            }}
             className="hover:text-zinc-400 transition-colors duration-200 text-lg font-medium px-4"
           >
-            About
+            Schedule
           </a>
         </div>
 
@@ -170,7 +170,7 @@ const Navbar = ({ scrollToRefs = {}, scrollToSection = () => {}, isScrolled = fa
                 className="py-2 hover:text-gray-400 transition-colors duration-300"
                 style={{ fontSize: "1.5rem", padding: "1rem 1rem" }}
               >
-                Events
+                Event
               </a>
               <a
                 href="#schedule"

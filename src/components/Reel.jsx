@@ -1,9 +1,43 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import video1 from "../assets/Ctrl_reel_1.webm";
 import video2 from "../assets/er_reel_2.webm";
 import video3 from "../assets/cof_reel_3.webm";
 
 function Reel() {
+  const videoRefs = useRef([]);
+  const shouldAutoplayFallback = typeof window !== 'undefined' && !('IntersectionObserver' in window);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+          if (!(video instanceof HTMLVideoElement)) return;
+
+          if (entry.isIntersecting) {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {});
+            }
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.35 },
+    );
+
+    videoRefs.current.forEach((video) => {
+      if (video) observer.observe(video);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       className="relative min-h-screen w-full py-12 px-4 sm:px-6 lg:px-8 overflow-hidden"
@@ -35,12 +69,13 @@ function Reel() {
           >
             <div className="relative w-full rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: "9 / 16" }}>
               <video
+                ref={(el) => { videoRefs.current[0] = el; }}
                 className="absolute inset-0 w-full h-full object-cover"
-                autoPlay
+                autoPlay={shouldAutoplayFallback}
                 loop
                 muted
                 playsInline
-                preload="auto"
+                preload="none"
               >
                 <source src={video1}
                  type="video/webm" />
@@ -58,12 +93,13 @@ function Reel() {
           >
             <div className="relative w-full rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: "9 / 16" }}>
               <video
+                ref={(el) => { videoRefs.current[1] = el; }}
                 className="absolute inset-0 w-full h-full object-cover"
-                autoPlay
+                autoPlay={shouldAutoplayFallback}
                 loop
                 muted
                 playsInline
-                preload="auto"
+                preload="none"
               >
                 <source src={video2}
                  type="video/webm" />
@@ -82,12 +118,13 @@ function Reel() {
           >
             <div className="relative w-full rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: "9 / 16" }}>
               <video
+                ref={(el) => { videoRefs.current[2] = el; }}
                 className="absolute inset-0 w-full h-full object-cover"
-                autoPlay
+                autoPlay={shouldAutoplayFallback}
                 loop
                 muted
                 playsInline
-                preload="auto"
+                preload="none"
               >
                 <source src={video3}
                  type="video/webm" />

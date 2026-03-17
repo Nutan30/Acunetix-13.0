@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://acunetix13.tech/sitemap.xml

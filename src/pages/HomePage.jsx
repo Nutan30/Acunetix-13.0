@@ -31,7 +31,14 @@ function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
     if (!targetRef?.current) return;
 
     const timeoutId = window.setTimeout(() => {
-      targetRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
+      const reduceMotion =
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      targetRef.current.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'start',
+      });
       window.history.replaceState({}, document.title, `${window.location.pathname}${window.location.search}`);
     }, 50);
 

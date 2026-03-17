@@ -1,11 +1,68 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Chatbot.css';
 
+const injectSrc = 'https://cdn.botpress.cloud/webchat/v3.6/inject.js';
+const botSrc = 'https://files.bpcontent.cloud/2026/03/02/17/20260302171104-QSWM51L5.js';
+const logoUrl = '/favicon.svg';
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[src="${src}"]`);
+    if (existing) {
+      if (existing.dataset.loaded === 'true') {
+        resolve();
+        return;
+      }
+
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        existing.dataset.loaded = 'true';
+        resolve();
+      };
+
+      const fail = () => {
+        if (settled) return;
+        settled = true;
+        reject(new Error(`Failed to load ${src}`));
+      };
+
+      // Existing script tags may already be loaded (and won't emit load again).
+      const fallbackId = window.setTimeout(finish, 1500);
+
+      existing.addEventListener('load', () => {
+        window.clearTimeout(fallbackId);
+        finish();
+      }, { once: true });
+
+      existing.addEventListener('error', () => {
+        window.clearTimeout(fallbackId);
+        fail();
+      }, { once: true });
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      script.dataset.loaded = 'true';
+      resolve();
+    };
+    script.onerror = () => reject(new Error(`Failed to load ${src}`));
+    document.body.appendChild(script);
+  });
+}
+
 const BotpressChat = () => {
+  const hasStartedLoadingRef = useRef(false);
+
   useEffect(() => {
-    const injectSrc = 'https://cdn.botpress.cloud/webchat/v3.6/inject.js';
-    const botSrc = 'https://files.bpcontent.cloud/2026/03/02/17/20260302171104-QSWM51L5.js';
-    const logoUrl = '/src/assets/acunetix-logo.svg';
+    let isMounted = true;
+    let timeoutId = null;
+    let idleId = null;
 
     const initBotpress = () => {
       if (window.botpressWebChat) {
@@ -19,40 +76,70 @@ const BotpressChat = () => {
       }
     };
 
-    const appendBotScript = () => {
-      if (!document.querySelector(`script[src="${botSrc}"]`)) {
-        const botScript = document.createElement('script');
-        botScript.src = botSrc;
-        botScript.onload = initBotpress;
-        document.body.appendChild(botScript);
-      } else {
-        initBotpress();
+    const startLoading = async () => {
+      if (hasStartedLoadingRef.current) return;
+      hasStartedLoadingRef.current = true;
+
+      try {
+        await loadScript(injectSrc);
+        await loadScript(botSrc);
+        if (isMounted) {
+          initBotpress();
+        }
+      } catch {
+        // Fail silently so third-party chat issues never block the page.
       }
     };
 
-    const injectTag = document.querySelector(`script[src="${injectSrc}"]`);
-    if (window.botpress || window.botpressWebChat) {
-      appendBotScript();
-    } else if (injectTag) {
-      const waitForInject = setInterval(() => {
-        if (window.botpress || window.botpressWebChat) {
-          clearInterval(waitForInject);
-          appendBotScript();
-        }
-      }, 100);
-      setTimeout(() => {
-        clearInterval(waitForInject);
-        appendBotScript();
-      }, 5000);
+    const interactionEvents = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
+
+    const cleanupListeners = () => {
+      interactionEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, onFirstInteraction);
+      });
+    };
+
+    const onFirstInteraction = () => {
+      cleanupListeners();
+
+      if (idleId !== null && typeof window.cancelIdleCallback === 'function') {
+        window.cancelIdleCallback(idleId);
+      }
+
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+
+      startLoading();
+    };
+
+    interactionEvents.forEach((eventName) => {
+      window.addEventListener(eventName, onFirstInteraction, { passive: true });
+    });
+
+    if (typeof window.requestIdleCallback === 'function') {
+      idleId = window.requestIdleCallback(() => {
+        cleanupListeners();
+        startLoading();
+      }, { timeout: 3500 });
     } else {
-      const injectScriptTag = document.createElement('script');
-      injectScriptTag.src = injectSrc;
-      injectScriptTag.onload = appendBotScript;
-      document.body.appendChild(injectScriptTag);
+      timeoutId = window.setTimeout(() => {
+        cleanupListeners();
+        startLoading();
+      }, 2500);
     }
 
     return () => {
-      // Scripts remain loaded across route changes.
+      isMounted = false;
+      cleanupListeners();
+
+      if (idleId !== null && typeof window.cancelIdleCallback === 'function') {
+        window.cancelIdleCallback(idleId);
+      }
+
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
     };
   }, []);
 
