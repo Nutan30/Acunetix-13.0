@@ -40,10 +40,10 @@
   text-align: center;
   padding: 0.5em 1.5em;
   border-radius: 0.75em;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   color: #fff;
   margin-top: 1em;
-  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 600px) {
@@ -63,7 +63,7 @@
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  transform: scale3d(1,1,1);
+  transform: scale3d(1, 1, 1);
   font-family: 'Inter', Arial, sans-serif !important;
   font-weight: 400 !important;
 }
@@ -93,52 +93,177 @@
 }
 
 @keyframes glitch-effect-before {
-  0%   { clip: rect(42px, 9999px, 44px, 0); }
-  5%   { clip: rect(12px, 9999px, 60px, 0); }
-  10%  { clip: rect(85px, 9999px, 100px, 0); }
-  15%  { clip: rect(24px, 9999px, 56px, 0); }
-  20%  { clip: rect(0px, 9999px, 20px, 0); }
-  25%  { clip: rect(65px, 9999px, 80px, 0); }
-  30%  { clip: rect(10px, 9999px, 50px, 0); }
-  35%  { clip: rect(50px, 9999px, 70px, 0); }
-  40%  { clip: rect(30px, 9999px, 60px, 0); }
-  45%  { clip: rect(60px, 9999px, 90px, 0); }
-  50%  { clip: rect(20px, 9999px, 40px, 0); }
-  55%  { clip: rect(80px, 9999px, 100px, 0); }
-  60%  { clip: rect(10px, 9999px, 30px, 0); }
-  65%  { clip: rect(70px, 9999px, 90px, 0); }
-  70%  { clip: rect(40px, 9999px, 60px, 0); }
-  75%  { clip: rect(60px, 9999px, 80px, 0); }
-  80%  { clip: rect(20px, 9999px, 40px, 0); }
-  85%  { clip: rect(50px, 9999px, 70px, 0); }
-  90%  { clip: rect(30px, 9999px, 50px, 0); }
-  95%  { clip: rect(80px, 9999px, 100px, 0); }
-  100% { clip: rect(0px, 9999px, 20px, 0); }
+  0% {
+    clip: rect(42px, 9999px, 44px, 0);
+  }
+
+  5% {
+    clip: rect(12px, 9999px, 60px, 0);
+  }
+
+  10% {
+    clip: rect(85px, 9999px, 100px, 0);
+  }
+
+  15% {
+    clip: rect(24px, 9999px, 56px, 0);
+  }
+
+  20% {
+    clip: rect(0px, 9999px, 20px, 0);
+  }
+
+  25% {
+    clip: rect(65px, 9999px, 80px, 0);
+  }
+
+  30% {
+    clip: rect(10px, 9999px, 50px, 0);
+  }
+
+  35% {
+    clip: rect(50px, 9999px, 70px, 0);
+  }
+
+  40% {
+    clip: rect(30px, 9999px, 60px, 0);
+  }
+
+  45% {
+    clip: rect(60px, 9999px, 90px, 0);
+  }
+
+  50% {
+    clip: rect(20px, 9999px, 40px, 0);
+  }
+
+  55% {
+    clip: rect(80px, 9999px, 100px, 0);
+  }
+
+  60% {
+    clip: rect(10px, 9999px, 30px, 0);
+  }
+
+  65% {
+    clip: rect(70px, 9999px, 90px, 0);
+  }
+
+  70% {
+    clip: rect(40px, 9999px, 60px, 0);
+  }
+
+  75% {
+    clip: rect(60px, 9999px, 80px, 0);
+  }
+
+  80% {
+    clip: rect(20px, 9999px, 40px, 0);
+  }
+
+  85% {
+    clip: rect(50px, 9999px, 70px, 0);
+  }
+
+  90% {
+    clip: rect(30px, 9999px, 50px, 0);
+  }
+
+  95% {
+    clip: rect(80px, 9999px, 100px, 0);
+  }
+
+  100% {
+    clip: rect(0px, 9999px, 20px, 0);
+  }
 }
 
 @keyframes glitch-effect-after {
-  0%   { clip: rect(12px, 9999px, 60px, 0); }
-  5%   { clip: rect(42px, 9999px, 44px, 0); }
-  10%  { clip: rect(24px, 9999px, 56px, 0); }
-  15%  { clip: rect(85px, 9999px, 100px, 0); }
-  20%  { clip: rect(65px, 9999px, 80px, 0); }
-  25%  { clip: rect(0px, 9999px, 20px, 0); }
-  30%  { clip: rect(50px, 9999px, 70px, 0); }
-  35%  { clip: rect(10px, 9999px, 50px, 0); }
-  40%  { clip: rect(60px, 9999px, 90px, 0); }
-  45%  { clip: rect(30px, 9999px, 60px, 0); }
-  50%  { clip: rect(80px, 9999px, 100px, 0); }
-  55%  { clip: rect(20px, 9999px, 40px, 0); }
-  60%  { clip: rect(70px, 9999px, 90px, 0); }
-  65%  { clip: rect(10px, 9999px, 30px, 0); }
-  70%  { clip: rect(60px, 9999px, 80px, 0); }
-  75%  { clip: rect(40px, 9999px, 60px, 0); }
-  80%  { clip: rect(50px, 9999px, 70px, 0); }
-  85%  { clip: rect(30px, 9999px, 50px, 0); }
-  90%  { clip: rect(80px, 9999px, 100px, 0); }
-  95%  { clip: rect(0px, 9999px, 20px, 0); }
-  100% { clip: rect(12px, 9999px, 60px, 0); }
+  0% {
+    clip: rect(12px, 9999px, 60px, 0);
+  }
+
+  5% {
+    clip: rect(42px, 9999px, 44px, 0);
+  }
+
+  10% {
+    clip: rect(24px, 9999px, 56px, 0);
+  }
+
+  15% {
+    clip: rect(85px, 9999px, 100px, 0);
+  }
+
+  20% {
+    clip: rect(65px, 9999px, 80px, 0);
+  }
+
+  25% {
+    clip: rect(0px, 9999px, 20px, 0);
+  }
+
+  30% {
+    clip: rect(50px, 9999px, 70px, 0);
+  }
+
+  35% {
+    clip: rect(10px, 9999px, 50px, 0);
+  }
+
+  40% {
+    clip: rect(60px, 9999px, 90px, 0);
+  }
+
+  45% {
+    clip: rect(30px, 9999px, 60px, 0);
+  }
+
+  50% {
+    clip: rect(80px, 9999px, 100px, 0);
+  }
+
+  55% {
+    clip: rect(20px, 9999px, 40px, 0);
+  }
+
+  60% {
+    clip: rect(70px, 9999px, 90px, 0);
+  }
+
+  65% {
+    clip: rect(10px, 9999px, 30px, 0);
+  }
+
+  70% {
+    clip: rect(60px, 9999px, 80px, 0);
+  }
+
+  75% {
+    clip: rect(40px, 9999px, 60px, 0);
+  }
+
+  80% {
+    clip: rect(50px, 9999px, 70px, 0);
+  }
+
+  85% {
+    clip: rect(30px, 9999px, 50px, 0);
+  }
+
+  90% {
+    clip: rect(80px, 9999px, 100px, 0);
+  }
+
+  95% {
+    clip: rect(0px, 9999px, 20px, 0);
+  }
+
+  100% {
+    clip: rect(12px, 9999px, 60px, 0);
+  }
 }
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -1050,12 +1175,12 @@ footer {
     margin-top: 0;
   }
 
-  .schedule-title{
+  .schedule-title {
     margin-top: 3rem;
     font-size: clamp(3rem, 4vh, 3rem);
   }
 
-  .schedule-subtitle{
+  .schedule-subtitle {
     margin-top: 0.5rem;
   }
 }
@@ -1106,4 +1231,102 @@ footer {
 
 .poster-float {
   animation: posterFloat 4s ease-in-out infinite;
+}
+
+
+
+/* Countdown container */
+#countdown{
+  width:90%;
+  max-width:380px;
+  padding:16px 10px 22px 10px;
+  text-align:center;
+  /* background:rgba(20,30,35,0.8); */
+  /* backdrop-filter:blur(10px); */
+  border-radius:10px;
+  /* box-shadow:0 8px 20px rgba(0,0,0,0.4); */
+  margin:auto;
+  position:relative;
+}
+
+/* Tiles row */
+#tiles{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+/* Tiles */
+#tiles span{
+  width:clamp(50px,17vw,80px);
+  height:clamp(50px,17vw,80px);
+  font:bold clamp(25px,4vw,46px) 'Audiowide Local';
+  color:white;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:6px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  position:relative;
+}
+
+/* divider line */
+/* #tiles span:after{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:2px;
+  background:#ddd;
+  top:50%;
+} */
+
+/* Labels row */
+.labels{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:6px;
+}
+
+/* Label text */
+.labels li{
+  width:clamp(50px,17vw,80px);
+  list-style:none;
+  font:bold clamp(8px,4vw,15px) 'Audiowide Local';
+  color:#f7fbfa;
+  text-transform:uppercase;
+  text-align:center;
+}
+
+@media (min-width: 1024px){
+
+  #countdown{
+    max-width: 620px;
+    padding:30px 20px 35px 20px;
+  }
+
+  #tiles{
+    gap:18px;
+  }
+
+  #tiles span{
+    width:110px;
+    height:110px;
+    font: bold 60px 'Audiowide Local';
+    border-radius:10px;
+  }
+
+  .labels{
+    gap:18px;
+    margin-top:10px;
+  }
+
+  .labels li{
+    width:110px;
+    font: bold 16px 'Audiowide Local';
+  }
+
 }
