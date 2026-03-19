@@ -1,9 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import './Chatbot.css';
+import { useCallback, useEffect, useRef } from 'react';
 
 const injectSrc = 'https://cdn.botpress.cloud/webchat/v3.6/inject.js';
 const botSrc = 'https://files.bpcontent.cloud/2026/03/02/17/20260302171104-QSWM51L5.js';
-const logoUrl = '/favicon.svg';
 
 function loadScript(src) {
   return new Promise((resolve, reject) => {
@@ -59,85 +57,46 @@ function loadScript(src) {
 const BotpressChat = () => {
   const hasStartedLoadingRef = useRef(false);
 
+  const startLoading = useCallback(async () => {
+    if (hasStartedLoadingRef.current) return;
+    hasStartedLoadingRef.current = true;
+
+    try {
+      await loadScript(injectSrc);
+      await loadScript(botSrc);
+    } catch {
+      hasStartedLoadingRef.current = false;
+    }
+  }, []);
+
   useEffect(() => {
-    let isMounted = true;
+    if (typeof window === 'undefined') return undefined;
+
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const saveData = Boolean(connection?.saveData);
+    const isMobileViewport = window.innerWidth < 768;
+    const shouldAutoLoad = !isMobileViewport && !saveData;
+
+    if (!shouldAutoLoad) return undefined;
+
     let timeoutId = null;
     let idleId = null;
 
-    const initBotpress = () => {
-      if (window.botpressWebChat) {
-        window.botpressWebChat.init({
-          botId: 'your-bot-id',
-          botName: 'Acunetix Bot',
-          botAvatarUrl: logoUrl,
-          avatarUrl: logoUrl,
-          introMessage: 'Welcome to Acunetix! How can I help you today?',
-        });
+    const scheduleLoad = () => {
+      if (typeof window.requestIdleCallback === 'function') {
+        idleId = window.requestIdleCallback(() => {
+          startLoading();
+        }, { timeout: 30000 });
+      } else {
+        timeoutId = window.setTimeout(() => {
+          startLoading();
+        }, 24000);
       }
     };
 
-    const startLoading = async () => {
-      if (hasStartedLoadingRef.current) return;
-      hasStartedLoadingRef.current = true;
-
-      try {
-        await loadScript(injectSrc);
-        await loadScript(botSrc);
-        if (isMounted) {
-          initBotpress();
-        }
-      } catch {
-        // Fail silently so third-party chat issues never block the page.
-      }
-    };
-
-    const interactionEvents = ['click', 'keydown'];
-
-    const cleanupListeners = () => {
-      interactionEvents.forEach((eventName) => {
-        window.removeEventListener(eventName, onFirstInteraction);
-      });
-    };
-
-    const onFirstInteraction = () => {
-      cleanupListeners();
-
-      if (idleId !== null && typeof window.cancelIdleCallback === 'function') {
-        window.cancelIdleCallback(idleId);
-      }
-
-      if (timeoutId !== null) {
-        window.clearTimeout(timeoutId);
-      }
-
-      startLoading();
-    };
-
-    interactionEvents.forEach((eventName) => {
-      window.addEventListener(eventName, onFirstInteraction, { passive: true });
-    });
-
-    const isDesktop =
-      typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(min-width: 1024px)').matches;
-
-    const shouldAutoLoad = isDesktop;
-
-    if (shouldAutoLoad && typeof window.requestIdleCallback === 'function') {
-      idleId = window.requestIdleCallback(() => {
-        cleanupListeners();
-        startLoading();
-      }, { timeout: 15000 });
-    } else if (shouldAutoLoad) {
-      timeoutId = window.setTimeout(() => {
-        cleanupListeners();
-        startLoading();
-      }, 12000);
-    }
+    scheduleLoad();
 
     return () => {
-      isMounted = false;
-      cleanupListeners();
-
       if (idleId !== null && typeof window.cancelIdleCallback === 'function') {
         window.cancelIdleCallback(idleId);
       }
@@ -146,8 +105,9 @@ const BotpressChat = () => {
         window.clearTimeout(timeoutId);
       }
     };
-  }, []);
+  }, [startLoading]);
 
+  // Render nothing — the Botpress SDK injects its own launcher
   return null;
 };
 

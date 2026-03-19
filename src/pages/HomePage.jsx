@@ -21,7 +21,7 @@ function DeferredSection({
   id,
   sectionRef,
   minHeightClassName = 'min-h-screen',
-  rootMargin = '360px 0px',
+  rootMargin = '120px 0px',
   children,
 }) {
   const [shouldRender, setShouldRender] = useState(false);
@@ -139,6 +139,7 @@ function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
             id="about"
             sectionRef={scrollToRefs.aboutRef}
             minHeightClassName="min-h-[70vh] md:min-h-screen"
+            rootMargin="0px 0px"
           >
             <About ref={scrollToRefs.aboutRef} />
           </DeferredSection>
@@ -147,6 +148,7 @@ function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
             id="events"
             sectionRef={scrollToRefs.eventRef}
             minHeightClassName="min-h-screen"
+            rootMargin="140px 0px"
           >
             <Event ref={scrollToRefs.eventRef} />
           </DeferredSection>
@@ -155,6 +157,7 @@ function HomePage({ scrollToRefs, scrollToSection, isScrolled }) {
             id="reel"
             sectionRef={scrollToRefs.reelRef}
             minHeightClassName="min-h-[70vh]"
+            rootMargin="180px 0px"
           >
             <Reel ref={scrollToRefs.reelRef} />
           </DeferredSection>

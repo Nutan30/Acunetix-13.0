@@ -1,15 +1,16 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import eventsData from '../data/eventsData';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import GridScan from './GridScan';
-import MatrixRain from './MatrixRain';
-import InteractiveParticleField from './InteractiveParticleField';
-import FloatingLines from './FloatingLines';
-import CtrlAltEliteBackground from './CtrlAltEliteBackground';
-import ShapeGrid from './ShapeGrid';
+
+const GridScan = lazy(() => import('./GridScan'));
+const MatrixRain = lazy(() => import('./MatrixRain'));
+const InteractiveParticleField = lazy(() => import('./InteractiveParticleField'));
+const FloatingLines = lazy(() => import('./FloatingLines'));
+const CtrlAltEliteBackground = lazy(() => import('./CtrlAltEliteBackground'));
+const ShapeGrid = lazy(() => import('./ShapeGrid'));
 
 const EVENT_REDIRECT_URL = 'https://engg.dypvp.edu.in/Acunetix.aspx';
 
@@ -109,21 +110,27 @@ const EventDetails = () => {
             {/* Matrix rain for codeoflies */}
             {id === 'codeoflies' && (
                 <>
-                    <MatrixRain color={theme.primary} />
+                    <Suspense fallback={null}>
+                        <MatrixRain color={theme.primary} />
+                    </Suspense>
                     <div className="fixed inset-0 w-full h-full z-0 pointer-events-none bg-slate-900" />
                     <div className="fixed inset-0 w-full h-full z-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.85)' }} />
                 </>
             )}
             {id === 'ctrlaltelite' && (
                 <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
-                    <CtrlAltEliteBackground />
+                    <Suspense fallback={null}>
+                        <CtrlAltEliteBackground />
+                    </Suspense>
                 </div>
             )}
 
             {/* Interactive Particle Field for brainiac */}
             {id === 'brainiac' && (
                 <div className="fixed inset-0 w-full h-full z-0">
-                    <InteractiveParticleField />
+                    <Suspense fallback={null}>
+                        <InteractiveParticleField />
+                    </Suspense>
                 </div>
             )}
 
@@ -131,45 +138,49 @@ const EventDetails = () => {
             {id === 'treasure-trove' && (
                 <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
                     <div style={{ width: '100%', height: '100%', position: 'absolute' }} className="pointer-events-none">
-                        <FloatingLines
-                            linesGradient={['#ffffff', '#f7f3ea', '#efe9dd', '#f7f3ea', '#ffffff']}
-                            enabledWaves={["top", "bottom", "middle"]}
-                            // Array - specify line count per wave; Number - same count for all waves
-                            lineCount={5}
-                            // Array - specify line distance per wave; Number - same distance for all waves
-                            lineDistance={14.5}
-                            bendRadius={13.5}
-                            bendStrength={0}
-                            interactive={false}
-                            parallax={false}
-                        />
+                        <Suspense fallback={null}>
+                            <FloatingLines
+                                linesGradient={['#ffffff', '#f7f3ea', '#efe9dd', '#f7f3ea', '#ffffff']}
+                                enabledWaves={["top", "bottom", "middle"]}
+                                // Array - specify line count per wave; Number - same count for all waves
+                                lineCount={5}
+                                // Array - specify line distance per wave; Number - same distance for all waves
+                                lineDistance={14.5}
+                                bendRadius={13.5}
+                                bendStrength={0}
+                                interactive={false}
+                                parallax={false}
+                            />
+                        </Suspense>
                     </div>
                 </div>
             )}
             {id === 'timescape' && (
                 <div className="fixed inset-0 w-full h-full z-1 pointer-events-none bg-[#08000c]">
-                    <GridScan
-                        sensitivity={0.55}
-                        lineThickness={1}
-                        gridScale={0.1}
-                        scanOpacity={0.30}
-                        enablePost={true}
-                        bloomIntensity={0.5} // Lowered to keep the purple from washing out
-                        noiseIntensity={0.01}
+                    <Suspense fallback={null}>
+                        <GridScan
+                            sensitivity={0.55}
+                            lineThickness={1}
+                            gridScale={0.1}
+                            scanOpacity={0.30}
+                            enablePost={true}
+                            bloomIntensity={0.5} // Lowered to keep the purple from washing out
+                            noiseIntensity={0.01}
 
 
-                        linesColor="#260e35"
+                            linesColor="#260e35"
 
 
-                        scanColor={theme.primary}
+                            scanColor={theme.primary}
 
 
-                        chromaticAberration={0.001}
+                            chromaticAberration={0.001}
 
 
-                        scanSoftness={5}
-                        scanGlow={0.8}
-                    />
+                            scanSoftness={5}
+                            scanGlow={0.8}
+                        />
+                    </Suspense>
                     {/* This vignette helps hide any residual blue in the corners */}
                     <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-[#08000c]" />
                 </div>
@@ -179,15 +190,17 @@ const EventDetails = () => {
             {id === 'dpl' && (
                 <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
                     <div style={{ width: '100%', height: '100%', position: 'absolute' }} className="pointer-events-auto">
-                        <ShapeGrid
-                            speed={0.44}
-                            squareSize={40}
-                            direction="left" // up, down, left, right, diagonal
-                            borderColor="#353317" // yellowish dark brown hue fitting DPL theme
-                            hoverFillColor="#e8d020" // bright yellow DPL primary
-                            shape="hexagon" // hexagon fits cricket/sports well
-                            hoverTrailAmount={0} // number of trailing hovered shapes (0 = no trail)
-                        />
+                        <Suspense fallback={null}>
+                            <ShapeGrid
+                                speed={0.44}
+                                squareSize={40}
+                                direction="left" // up, down, left, right, diagonal
+                                borderColor="#353317" // yellowish dark brown hue fitting DPL theme
+                                hoverFillColor="#e8d020" // bright yellow DPL primary
+                                shape="hexagon" // hexagon fits cricket/sports well
+                                hoverTrailAmount={0} // number of trailing hovered shapes (0 = no trail)
+                            />
+                        </Suspense>
                     </div>
                 </div>
             )}

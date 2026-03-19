@@ -278,7 +278,6 @@ const Event = forwardRef((props, ref) => {
           style={{
             scrollSnapType: 'x mandatory',
             WebkitOverflowScrolling: 'touch',
-            touchAction: 'pan-x',
             overscrollBehaviorX: 'contain',
             paddingLeft: 'calc(50vw - clamp(130px, 11vw, 170px))',
             paddingRight: 'calc(50vw - clamp(130px, 11vw, 170px))',

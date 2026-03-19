@@ -1,46 +1,61 @@
 /* Intentionally left minimal: use default Botpress launcher/avatar and layout
    from Botpress dashboard settings to avoid page-scroll/touch conflicts. */
 
+.acunetix-chat-launcher {
+   position: fixed;
+   right: 14px;
+   bottom: 16px;
+   width: 52px;
+   height: 52px;
+   padding: 0;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 999px;
+   border: 1px solid rgba(255, 255, 255, 0.25);
+   background: rgba(8, 8, 8, 0.9);
+   cursor: pointer;
+   z-index: 2147483400;
+   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+   backdrop-filter: blur(8px);
+   transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.acunetix-chat-logo {
+   width: 24px;
+   height: 24px;
+   object-fit: contain;
+}
+
+.acunetix-chat-launcher.is-loading {
+   cursor: progress;
+}
+
+.acunetix-chat-launcher.is-loading .acunetix-chat-logo {
+   animation: acunetix-chat-spin 1s linear infinite;
+}
+
+.acunetix-chat-launcher:hover {
+   transform: translateY(-1px);
+   background: rgba(22, 22, 22, 0.95);
+}
+
+.acunetix-chat-launcher:focus-visible {
+   outline: 2px solid #ffffff;
+   outline-offset: 2px;
+}
+
 @media (max-width: 768px) {
-   .bpChatContainer,
-   #bp-web-widget-container,
-   #bp-web-widget,
-   [class*="WebchatContainer"],
-   [class*="webchatContainer"] {
-      pointer-events: none !important;
+   .acunetix-chat-launcher {
+      right: 12px;
+      bottom: 14px;
+      width: 48px;
+      height: 48px;
    }
 
-   .bpChatContainer button,
-   #bp-web-widget-container button,
-   #bp-web-widget button,
-   [class*="WebchatContainer"] button,
-   [class*="webchatContainer"] button,
-   .bpChatContainer iframe,
-   #bp-web-widget-container iframe,
-   #bp-web-widget iframe,
-   [class*="WebchatContainer"] iframe,
-   [class*="webchatContainer"] iframe,
-   .bpChatContainer a,
-   #bp-web-widget-container a,
-   #bp-web-widget a,
-   [class*="WebchatContainer"] a,
-   [class*="webchatContainer"] a,
-   .bpChatContainer input,
-   #bp-web-widget-container input,
-   #bp-web-widget input,
-   [class*="WebchatContainer"] input,
-   [class*="webchatContainer"] input,
-   .bpChatContainer textarea,
-   #bp-web-widget-container textarea,
-   #bp-web-widget textarea,
-   [class*="WebchatContainer"] textarea,
-   [class*="webchatContainer"] textarea,
-   .bpChatContainer [role="button"],
-   #bp-web-widget-container [role="button"],
-   #bp-web-widget [role="button"],
-   [class*="WebchatContainer"] [role="button"],
-   [class*="webchatContainer"] [role="button"] {
-      pointer-events: auto !important;
+   .acunetix-chat-logo {
+      width: 22px;
+      height: 22px;
    }
 
    .bpChatContainer,
@@ -50,14 +65,11 @@
    [class*="webchatContainer"] {
       position: fixed !important;
       inset: auto 12px 78px auto !important;
-      width: 54vw !important;
-      max-width: 220px !important;
+      width: auto !important;
       min-width: 0 !important;
-      height: 32vh !important;
-      max-height: 280px !important;
-      min-height: 0 !important;
-      border-radius: 14px !important;
-      overflow: hidden !important;
+      max-width: min(88vw, 340px) !important;
+      height: auto !important;
+      max-height: min(72vh, 520px) !important;
       z-index: 2147483000 !important;
    }
 
@@ -66,12 +78,11 @@
    #bp-web-widget > div,
    [class*="WebchatContainer"] > div,
    [class*="webchatContainer"] > div {
-      width: 54vw !important;
-      max-width: 220px !important;
-      height: 32vh !important;
-      max-height: 280px !important;
+      width: auto !important;
+      max-width: min(88vw, 340px) !important;
+      height: auto !important;
+      max-height: min(72vh, 520px) !important;
       min-height: 0 !important;
-      border-radius: 14px !important;
       overflow: hidden !important;
    }
 
@@ -82,25 +93,33 @@
    [class*="webchatContainer"] iframe {
       width: 100% !important;
       height: 100% !important;
-      max-height: 280px !important;
+      max-height: min(72vh, 520px) !important;
       min-height: 0 !important;
-      border-radius: 14px !important;
    }
 }
 
 /* Smartphone-only: make chat window noticeably smaller */
 @media (max-width: 480px) {
+   .acunetix-chat-launcher {
+      right: 10px;
+      bottom: 12px;
+      width: 46px;
+      height: 46px;
+   }
+
+   .acunetix-chat-logo {
+      width: 20px;
+      height: 20px;
+   }
+
    .bpChatContainer,
    #bp-web-widget-container,
    #bp-web-widget,
    [class*="WebchatContainer"],
    [class*="webchatContainer"] {
       inset: auto 10px 74px auto !important;
-      width: 48vw !important;
-      max-width: 190px !important;
-      height: 28vh !important;
-      max-height: 220px !important;
-      border-radius: 12px !important;
+      max-width: min(92vw, 320px) !important;
+      max-height: min(76vh, 500px) !important;
    }
 
    .bpChatContainer > div,
@@ -108,11 +127,8 @@
    #bp-web-widget > div,
    [class*="WebchatContainer"] > div,
    [class*="webchatContainer"] > div {
-      width: 48vw !important;
-      max-width: 190px !important;
-      height: 28vh !important;
-      max-height: 220px !important;
-      border-radius: 12px !important;
+      max-width: min(92vw, 320px) !important;
+      max-height: min(76vh, 500px) !important;
    }
 
    .bpChatContainer iframe,
@@ -120,7 +136,16 @@
    #bp-web-widget iframe,
    [class*="WebchatContainer"] iframe,
    [class*="webchatContainer"] iframe {
-      max-height: 220px !important;
-      border-radius: 12px !important;
+      max-height: min(76vh, 500px) !important;
+   }
+}
+
+@keyframes acunetix-chat-spin {
+   from {
+      transform: rotate(0deg);
+   }
+
+   to {
+      transform: rotate(360deg);
    }
 }

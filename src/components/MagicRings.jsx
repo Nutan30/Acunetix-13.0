@@ -110,7 +110,8 @@ export default function MagicRings({
       return;
     }
 
-    if (!renderer.capabilities.isWebGL2) {
+    const gl = renderer.getContext();
+    if (!gl) {
       renderer.dispose();
       return;
     }
@@ -162,8 +163,11 @@ export default function MagicRings({
     resize();
     window.addEventListener('resize', resize);
 
-    const ro = new ResizeObserver(resize);
-    ro.observe(mount);
+    let ro = null;
+    if (typeof ResizeObserver === 'function') {
+      ro = new ResizeObserver(resize);
+      ro.observe(mount);
+    }
 
     const onMouseMove = (e) => {
       const rect = mount.getBoundingClientRect();
@@ -224,12 +228,16 @@ export default function MagicRings({
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener('resize', resize);
-      ro.disconnect();
+      if (ro) {
+        ro.disconnect();
+      }
       mount.removeEventListener('mousemove', onMouseMove);
       mount.removeEventListener('mouseenter', onMouseEnter);
       mount.removeEventListener('mouseleave', onMouseLeave);
       mount.removeEventListener('click', onClick);
-      mount.removeChild(renderer.domElement);
+      if (renderer.domElement.parentNode === mount) {
+        mount.removeChild(renderer.domElement);
+      }
       renderer.dispose();
       material.dispose();
     };

@@ -1,5 +1,4 @@
 import React, { forwardRef, useState, useEffect } from 'react';
-import heroVideoMp4 from '../assets/bg.mp4';
 import heroVideoWebm from '../assets/bg.webm'; 
 
 const TARGET_DATE = new Date('2026-03-27T00:00:00+05:30').getTime();
@@ -40,17 +39,53 @@ const Hero = forwardRef((props, ref) => {
     const effectiveType = connection?.effectiveType || '';
     const slowConnection = /2g/.test(effectiveType);
     const isMobileViewport = window.innerWidth < 768;
+    const mobileFastNetwork = effectiveType === '' || /4g/.test(effectiveType);
 
-    if (reduceMotion || saveData || slowConnection || isMobileViewport) {
+
+
+    if (reduceMotion || saveData || slowConnection) {
       return undefined;
     }
-
-    let timeoutId = null;
-    let idleId = null;
 
     const enableVideo = () => {
       setShouldLoadVideo(true);
     };
+
+    if (isMobileViewport) {
+      if (!mobileFastNetwork) {
+        return undefined;
+      }
+
+      const interactionEvents = ['pointerdown', 'touchstart', 'keydown'];
+
+      const cleanupListeners = () => {
+        interactionEvents.forEach((eventName) => {
+          window.removeEventListener(eventName, onFirstInteraction);
+        });
+      };
+
+      const onFirstInteraction = () => {
+        cleanupListeners();
+        enableVideo();
+      };
+
+      interactionEvents.forEach((eventName) => {
+        window.addEventListener(eventName, onFirstInteraction, { passive: true });
+      });
+
+      // Keep video opt-in for mobile to protect first load responsiveness.
+      const timeoutId = window.setTimeout(() => {
+        cleanupListeners();
+      }, 20000);
+
+      return () => {
+        cleanupListeners();
+        window.clearTimeout(timeoutId);
+      };
+    }
+
+    let timeoutId = null;
+    let idleId = null;
 
     if (typeof window.requestIdleCallback === 'function') {
       idleId = window.requestIdleCallback(enableVideo, { timeout: 5000 });
@@ -94,7 +129,6 @@ const Hero = forwardRef((props, ref) => {
           aria-hidden="true"
         >
           <source src={heroVideoWebm} type="video/webm" />
-          <source src={heroVideoMp4} type="video/mp4" />
         </video>
       ) : (
         <div

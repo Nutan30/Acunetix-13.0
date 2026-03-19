@@ -20,19 +20,19 @@ export default function CtrlAltEliteBackground() {
   const rows = Array.from({ length: 15 });
 
   return (
-    <section className="ctrlelite-bg-section pointer-events-auto">
+    <section className="ctrlelite-bg-section pointer-events-none" aria-hidden="true">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
       <div className="ctrlelite-wrapper pointer-events-none">
         {rows.map((_, i) => (
           <div className="ctrlelite-row pointer-events-none" key={i}>
             <div className="pointer-events-none">
               {icons.map((icon, idx) => (
-                <i key={`a-${idx}`} className={`${icon} pointer-events-auto`}></i>
+                <i key={`a-${idx}`} className={`${icon} pointer-events-none`}></i>
               ))}
             </div>
             <div className="pointer-events-none">
               {icons.map((icon, idx) => (
-                <i key={`b-${idx}`} className={`${icon} pointer-events-auto`}></i>
+                <i key={`b-${idx}`} className={`${icon} pointer-events-none`}></i>
               ))}
             </div>
           </div>
@@ -79,7 +79,8 @@ export default function CtrlAltEliteBackground() {
             transition: 1s;
             padding: 0 5px;
             user-select: none;
-            cursor: default;
+          cursor: default;
+          pointer-events: none;
         }
 
         .ctrlelite-row i:hover {

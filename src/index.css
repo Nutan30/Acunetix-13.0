@@ -1,15 +1,7 @@
 @import 'tailwind-scrollbar-hide/v4';
 
-@font-face {
-  font-family: 'IM Fell DW Pica SC';
-  src: url('./assets/fonts/IM_Fell_DW_Pica_SC/IMFellDWPicaSC-Regular.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
 .im-fell-pica {
-  font-family: 'IM Fell DW Pica SC', serif !important;
+  font-family: 'Georgia', 'Times New Roman', serif !important;
   font-size: clamp(1.5rem, 3vw, 2.5rem) !important;
 }
 /* Responsive Acunetix 13.0 Hero Heading */
@@ -160,14 +152,6 @@
 @font-face {
   font-family: 'Audiowide Local';
   src: url('./assets/fonts/Audiowide/Audiowide-Regular.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/inter/Inter-Regular.woff2') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;

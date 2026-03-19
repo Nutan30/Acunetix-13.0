@@ -12,7 +12,38 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  base: '/', 
-  
-  
+  base: '/',
+  build: {
+    target: 'es2020',
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+
+          if (id.includes('react') || id.includes('scheduler')) {
+            return 'vendor-react';
+          }
+
+          if (id.includes('react-router')) {
+            return 'vendor-router';
+          }
+
+          if (id.includes('three') || id.includes('postprocessing')) {
+            return 'vendor-three';
+          }
+
+          if (id.includes('framer-motion') || /[\\/]motion[\\/]/.test(id)) {
+            return 'vendor-motion';
+          }
+
+          if (id.includes('face-api.js')) {
+            return 'vendor-faceapi';
+          }
+
+          return undefined;
+        },
+      },
+    },
+  },
 })
