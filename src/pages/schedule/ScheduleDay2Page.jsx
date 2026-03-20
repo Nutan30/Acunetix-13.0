@@ -2,8 +2,9 @@ import React from 'react';
 import ScheduleDayPage from '@/pages/schedule/ScheduleDayPage';
 
 const scheduleEvents = [
-  { id: 1, name: 'ESCAPE ROOM', location: 'Room 105', time: '12:00 PM' },
-  { id: 2, name: 'CTRL+ALT+ELITE', location: 'Lab 3', time: '02:00 PM' },
+  { id: 1, name: 'CODE OF LIES', location: 'TBA', time: 'TBA' },
+  { id: 2, name: 'DPL AUCTION', location: 'TBA', time: 'TBA' },
+  { id: 3, name: 'ESCAPE ROOM', location: 'TBA', time: 'TBA' },
 ];
 
 function ScheduleDay2Page() {
