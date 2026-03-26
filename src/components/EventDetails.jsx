@@ -385,7 +385,7 @@ const EventDetails = () => {
                                 </div>
                             </motion.div>
 
-                            {/* Register and Instructions buttons */}
+                            /*{/* Register and Instructions buttons */}
                             <div className="flex flex-col sm:flex-row gap-4 items-start">
                                 <motion.a
 
@@ -396,7 +396,7 @@ const EventDetails = () => {
                                 style={id === 'treasure-trove' ? { backgroundColor: '#fff', color: '#000', boxShadow: 'none' } : { backgroundColor: theme.primary, boxShadow: 'none' }}
                             >
                                 Register Now
-                            </motion.a>
+                            </motion.a>*/
 
                                 <motion.button
                                 onClick={() => setIsInstructionOpen(true)}
